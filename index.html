@@ -1,0 +1,1408 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>ENGV A4 Word Drills</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap">
+<style>
+/* Layout: one narrow study column, one question per screen; menu = three groups of round cards.
+   Look: snow-light page, slate ink, cold-blue accent; amber is kept for the rule box only. */
+:root {
+  --bg: #F2F5F8;
+  --surface: #FFFFFF;
+  --ink: #1B2733;
+  --muted: #586979;
+  --line: #D3DCE5;
+  --accent: #2C5797;
+  --accent-soft: #E2EAF6;
+  --on-accent: #FFFFFF;
+  --good: #22744A;
+  --good-soft: #E1F2E8;
+  --bad: #A93745;
+  --bad-soft: #F9E5E8;
+  --rule: #7A5100;
+  --rule-soft: #FFF4D9;
+  --rule-line: #E2B04A;
+  --font-ui: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --font-book: "Literata", Georgia, "Times New Roman", serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111920; --surface: #19242E; --ink: #E5ECF2; --muted: #9AAAB9; --line: #2B3946;
+    --accent: #8FB3EC; --accent-soft: #213149; --on-accent: #0E1620;
+    --good: #72CB98; --good-soft: #163225; --bad: #F08D99; --bad-soft: #3A1D23;
+    --rule: #F1C76E; --rule-soft: #332912; --rule-line: #8C6820;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111920; --surface: #19242E; --ink: #E5ECF2; --muted: #9AAAB9; --line: #2B3946;
+  --accent: #8FB3EC; --accent-soft: #213149; --on-accent: #0E1620;
+  --good: #72CB98; --good-soft: #163225; --bad: #F08D99; --bad-soft: #3A1D23;
+  --rule: #F1C76E; --rule-soft: #332912; --rule-line: #8C6820;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-ui); font-size: 17px; line-height: 1.5;
+  padding-inline: 16px; padding-block: 0 48px;
+}
+.wrap { max-width: 660px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--font-book); font-weight: 600; text-wrap: balance; margin: 0; }
+h1 { font-size: 1.75rem; line-height: 1.2; }
+h2 { font-size: 1.3rem; line-height: 1.25; }
+h3 { font-size: 1.05rem; }
+p { margin: 0; }
+button { font: inherit; color: inherit; }
+button:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+/* top bar */
+.bar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: var(--bg); border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 12px; padding-block: 10px; margin-bottom: 18px;
+}
+.bar .t { flex: 1; min-width: 0; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar .n { color: var(--muted); font-variant-numeric: tabular-nums; }
+.ghost {
+  background: transparent; border: 1px solid var(--line); border-radius: 8px;
+  padding: 6px 12px; cursor: pointer; color: var(--muted);
+}
+.ghost.armed { border-color: var(--bad); color: var(--bad); }
+.track { height: 4px; background: var(--line); border-radius: 2px; margin: -12px 0 18px; overflow: hidden; }
+.track i { display: block; height: 100%; background: var(--accent); }
+
+/* menu */
+.head { padding-block: 28px 8px; display: grid; gap: 10px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-size: 0.85rem; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+.note { color: var(--muted); font-size: 0.95rem; }
+.group { margin-top: 26px; display: grid; gap: 10px; }
+.group > h2 { font-size: 1.05rem; font-family: var(--font-ui); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.card {
+  display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center;
+  text-align: left; width: 100%; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px;
+}
+.card:hover { border-color: var(--accent); }
+.card .ct { font-weight: 700; }
+.card .cb { grid-column: 1; color: var(--muted); font-size: 0.92rem; }
+.card .cr { grid-column: 1; font-size: 0.88rem; color: var(--accent); }
+.card .tick { grid-row: 1 / span 3; grid-column: 2; width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--line); display: grid; place-items: center; font-weight: 700; }
+.card .tick.on { background: var(--good); border-color: var(--good); color: var(--surface); }
+
+/* intro sheet */
+.sheet { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 14px; }
+.sheet h3 { color: var(--accent); }
+.sheet ul { margin: 6px 0 0; padding-left: 20px; display: grid; gap: 4px; }
+.sheet .tests { background: var(--rule-soft); border-left: 4px solid var(--rule-line); border-radius: 8px; padding: 10px 12px; }
+.sheet .tests h3 { color: var(--rule); }
+
+/* question */
+.q { display: grid; gap: 16px; }
+.sent {
+  font-family: var(--font-book); font-size: 1.25rem; line-height: 1.6;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px;
+}
+.sent u, .tw { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 4px; text-decoration-color: var(--accent); font-weight: 600; }
+.voice { font-size: 0.85rem; color: var(--muted); font-style: italic; }
+.ask { font-weight: 700; }
+.opts { display: grid; gap: 10px; }
+.opt {
+  text-align: left; width: 100%; cursor: pointer; padding: 12px 14px; border-radius: 10px;
+  background: var(--surface); border: 2px solid var(--line); line-height: 1.4;
+}
+.opt:hover:not(:disabled) { border-color: var(--accent); }
+.opt:disabled { cursor: default; }
+.opt.tried { background: var(--bad-soft); border-color: var(--bad); color: var(--bad); text-decoration: line-through; text-decoration-thickness: 1px; }
+.opt.right { background: var(--good-soft); border-color: var(--good); color: var(--good); font-weight: 700; }
+.hint { background: var(--accent-soft); border-radius: 10px; padding: 12px 14px; }
+.hint b { color: var(--accent); }
+.verdict { font-weight: 700; }
+.verdict.good { color: var(--good); }
+.verdict.mid { color: var(--accent); }
+.verdict.bad { color: var(--bad); }
+.rulebox { background: var(--rule-soft); border-left: 4px solid var(--rule-line); border-radius: 8px; padding: 12px 14px; }
+.rulebox b:first-child { color: var(--rule); }
+.whyline { font-family: var(--font-book); font-size: 1rem; color: var(--ink); padding-left: 14px; border-left: 3px solid var(--line); }
+.primary {
+  background: var(--accent); color: var(--on-accent); border: 0; border-radius: 10px;
+  padding: 13px 20px; font-weight: 700; cursor: pointer; justify-self: start;
+}
+.primary:disabled { opacity: 0.45; cursor: default; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+/* tap words */
+.words { display: flex; flex-wrap: wrap; gap: 8px; font-family: var(--font-book); font-size: 1.15rem; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+.w { border: 2px solid transparent; background: var(--bg); border-radius: 8px; padding: 4px 8px; cursor: pointer; }
+.w.sel { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.w.hit { border-color: var(--good); background: var(--good-soft); color: var(--good); font-weight: 600; }
+.w.miss { border-color: var(--good); border-style: dashed; color: var(--good); }
+.w.wrong { border-color: var(--bad); background: var(--bad-soft); color: var(--bad); text-decoration: line-through; }
+.w:disabled { cursor: default; }
+
+/* results */
+.tally { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.tally div { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; text-align: center; }
+.tally b { display: block; font-size: 1.8rem; font-variant-numeric: tabular-nums; font-family: var(--font-book); }
+.tally span { font-size: 0.85rem; color: var(--muted); }
+.tally .g b { color: var(--good); } .tally .m b { color: var(--accent); } .tally .r b { color: var(--muted); }
+.review { display: grid; gap: 12px; }
+.review .it { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: grid; gap: 6px; }
+.review .it .s { font-family: var(--font-book); }
+.save { font-size: 0.9rem; color: var(--muted); }
+
+/* spot my errors */
+.extract { font-family: var(--font-book); font-size: 1.15rem; line-height: 1.9; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+.extract sup { font-family: var(--font-ui); font-size: 0.7rem; font-weight: 700; color: var(--accent); margin-right: 1px; }
+.extract u { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; text-decoration-color: var(--accent); }
+.lab { display: grid; gap: 8px; }
+.lrow {
+  display: grid; grid-template-columns: 2rem 1fr; gap: 8px; align-items: center; text-align: left; width: 100%;
+  background: var(--surface); border: 2px solid var(--line); border-radius: 10px; padding: 10px 12px; cursor: pointer;
+}
+.lrow .num { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.lrow .wd { font-family: var(--font-book); font-weight: 600; }
+.lrow.flag { border-color: var(--bad); background: var(--bad-soft); }
+.lrow.flag .num { color: var(--bad); }
+.lrow.err { border-color: var(--bad); }
+.lrow.ok { opacity: 0.7; }
+.lrow:disabled { cursor: default; }
+.lrow small { display: block; color: var(--muted); font-size: 0.85rem; }
+.fix { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: grid; gap: 10px; }
+.fix label { font-weight: 700; font-size: 0.92rem; }
+.fix select, .fix textarea {
+  width: 100%; font: inherit; color: var(--ink); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px;
+}
+.fix textarea { min-height: 92px; resize: vertical; font-family: var(--font-book); }
+.mine { font-family: var(--font-book); color: var(--muted); }
+.exportbox { width: 100%; min-height: 160px; font: 0.85rem/1.4 ui-monospace, Consolas, monospace; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px; }
+@media (prefers-reduced-motion: no-preference) {
+  .opt, .w, .lrow, .card { transition: border-color .15s, background-color .15s; }
+}
+@media (max-width: 420px) {
+  body { font-size: 16px; }
+  .sent { font-size: 1.12rem; }
+  .tally b { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+(function () {
+"use strict";
+
+/* ---------------- her labels (Dr Annandale's, 27 Sep slides) ---------------- */
+var LABEL_GROUPS = [
+  ["Nouns", ["common noun", "proper noun", "collective noun", "abstract noun"]],
+  ["Pronouns", ["personal pronoun", "possessive pronoun", "reflexive pronoun", "interrogative pronoun", "demonstrative pronoun", "indefinite pronoun", "relative pronoun"]],
+  ["Articles", ["definite article", "indefinite article"]],
+  ["Adjectives", ["descriptive adjective", "adjective of quantity", "adjective of order", "compound adjective", "possessive adjective", "proper adjective", "interrogative adjective", "demonstrative adjective"]],
+  ["Verbs", ["finite verb", "linking verb", "infinitive", "auxiliary verb"]],
+  ["Not quite verbs", ["present participle", "past participle", "gerund (noun)", "gerund (adjective)"]],
+  ["Adverbs", ["adverb of manner", "adverb of place", "adverb of time", "adverb of frequency", "adverb of degree"]],
+  ["Conjunctions", ["coordinating conjunction", "subordinating conjunction"]],
+  ["Other", ["preposition", "interjection"]]
+];
+
+/* ---------------- the rounds ----------------
+   pick: s = sentence ([word] is underlined), opts, key = index of the right option.
+   tap:  s = sentence, {word} = a word she must find.
+   spot: extract with [n:word] markers, 8 labels, 3 of them wrong.  */
+var ROUNDS = [
+{
+  id: "r1", group: "pos", title: "Nouns and pronouns",
+  blurb: "Collective or not? West and east. Why is not a pronoun.",
+  intro:
+    "<div><h3>Nouns</h3><ul>" +
+    "<li><b>common noun</b>: you can see or touch it (boat, snow)</li>" +
+    "<li><b>proper noun</b>: a name, capital letter (Patrick)</li>" +
+    "<li><b>collective noun</b>: a group word (a flock, a pack)</li>" +
+    "<li><b>abstract noun</b>: you cannot see or touch it (fear, sense). Her label: <i>west, east, hours</i> = abstract noun</li>" +
+    "</ul></div>" +
+    "<div><h3>Pronouns (stand in place of a name)</h3><ul>" +
+    "<li><b>personal</b>: I, you, he, she, it, we, they</li>" +
+    "<li><b>possessive</b> (owns, stands alone): mine, his, ours, theirs</li>" +
+    "<li><b>reflexive</b>: myself, himself, herself</li>" +
+    "<li><b>interrogative</b> (asks, answer is a person or thing): who, what</li>" +
+    "<li><b>demonstrative</b> (points, stands alone): this, that, these, those</li>" +
+    "<li><b>indefinite</b>: everyone, someone, nobody, <i>you</i> in general</li>" +
+    "<li><b>relative</b> (links back to a noun): the girl <i>who</i>..., the boy <i>whom</i>...</li>" +
+    "</ul></div>" +
+    "<div class='tests'><h3>Quick tests</h3><ul>" +
+    "<li>Collective? Try \"a ___ of things\" (a pack of dogs).</li>" +
+    "<li><i>They</i> is a pronoun, never a collective noun.</li>" +
+    "<li><i>Why</i> is not an interrogative pronoun: you cannot answer it with a person or thing.</li>" +
+    "</ul></div>",
+  qs: [
+    { id: "r1q1", type: "pick", s: "A [pack] of wild dogs runs along the ridge.",
+      opts: ["collective noun", "common noun", "abstract noun", "indefinite pronoun"], key: 0,
+      hint: "Try her test: does \"a ___ of things\" fit? A pack of dogs...",
+      rule: "Collective noun = one word for a whole group. Test: \"a ___ of things\" fits (a pack of dogs, a flock of sheep).",
+      why: "\"pack\" is a collective noun because it names a whole group of dogs as one thing." },
+    { id: "r1q2", type: "pick", s: "Willo feels a deep [fear] of the dark woods.",
+      opts: ["common noun", "abstract noun", "descriptive adjective", "collective noun"], key: 1,
+      hint: "Can you see it or touch it? And does \"the\" fit in front of it (the fear)?",
+      rule: "Abstract noun = you cannot see or touch it (fear, hope, sense). Common noun = you can (boat, snow).",
+      why: "\"fear\" is an abstract noun because it is a feeling you cannot see or touch." },
+    { id: "r1q3", type: "pick", s: "The [snow] has covered the whole farm.",
+      opts: ["abstract noun", "collective noun", "common noun", "proper noun"], key: 2,
+      hint: "Can you see it and touch it? Is it a name with a capital letter?",
+      rule: "Common noun = an ordinary thing you can see or touch. Her memos give <i>snow</i> one label only: common noun.",
+      why: "\"snow\" is a common noun because it is an ordinary thing you can see and touch." },
+    { id: "r1q4", type: "pick", s: "Willo keeps looking [east], where the sun comes up.",
+      opts: ["adverb of place", "abstract noun", "common noun", "preposition"], key: 1,
+      hint: "Think of her Activity 1c memo (everyone looking west). Can you see or touch \"east\"?",
+      rule: "Her label: <i>west</i> and <i>east</i> = abstract noun. A grammar book may say adverb, but she marks the test, so her label wins.",
+      why: "\"east\" is an abstract noun because it is a direction you cannot see or touch." },
+    { id: "r1q5", type: "pick", s: "[Everyone] at the Barmuth Meet stares at Willo.",
+      opts: ["collective noun", "personal pronoun", "indefinite pronoun", "proper noun"], key: 2,
+      hint: "Is it a noun for a group (\"a ___ of people\")? Or a word standing in for people in general, with no name?",
+      rule: "Indefinite pronoun = stands in for people or things in general, not one named person (everyone, someone, nobody).",
+      why: "\"Everyone\" is an indefinite pronoun because it stands in for people in general, not for a named person." },
+    { id: "r1q6", type: "pick", s: "Mary and Dart are hungry, so [they] sit by the fire.",
+      opts: ["collective noun", "personal pronoun", "indefinite pronoun", "demonstrative pronoun"], key: 1,
+      hint: "Who is \"they\"? Does it stand in for two names, or is it a group noun like \"pack\"?",
+      rule: "<i>They</i> = personal pronoun: it stands in for the names Mary and Dart. A collective noun is a NOUN (pack, flock), never a pronoun.",
+      why: "\"they\" is a personal pronoun, not a collective noun, because it stands in place of the names Mary and Dart." },
+    { id: "r1q7", type: "pick", s: "Willo looks at [himself] in the frozen pond.",
+      opts: ["personal pronoun", "possessive pronoun", "reflexive pronoun", "indefinite pronoun"], key: 2,
+      hint: "Does it end in -self? Who does the looking, and who gets looked at?",
+      rule: "Reflexive pronoun = -self / -selves, and the action turns back on the doer (Willo looks at himself).",
+      why: "\"himself\" is a reflexive pronoun because the action of looking turns back on Willo, the one doing it." },
+    { id: "r1q8", type: "pick", s: "[Who] left the gate open?",
+      opts: ["relative pronoun", "interrogative adjective", "interrogative pronoun", "personal pronoun"], key: 2,
+      hint: "Is it asking a question, or linking back to a noun? Is there a noun right after it?",
+      rule: "Interrogative pronoun = asks, stands alone, and the answer is a person or thing (Who? Dart.). Asks + a noun right after = interrogative adjective.",
+      why: "\"Who\" is an interrogative pronoun because it asks a question and the answer is a person." },
+    { id: "r1q9", type: "pick", s: "The girl [who] sits by the fire is Mary.",
+      opts: ["interrogative pronoun", "relative pronoun", "personal pronoun", "demonstrative pronoun"], key: 1,
+      hint: "Is there a question here? Or does it link back to the noun just before it (the girl)?",
+      rule: "Relative pronoun = links back to a noun that came just before (the girl who..., the boy whom...). No question is asked.",
+      why: "\"who\" is a relative pronoun, not an interrogative pronoun, because it links back to \"the girl\" and asks nothing." },
+    { id: "r1q10", type: "pick", s: "[Why] is Dad not home yet?",
+      ask: "Is \"Why\" an interrogative pronoun? Pick the right explanation.",
+      opts: [
+        "Yes. \"Why\" is an interrogative pronoun because it asks a question.",
+        "No. \"Why\" is not an interrogative pronoun because you cannot answer it with a person or a thing.",
+        "Yes. \"Why\" is an interrogative pronoun because it stands alone at the start of the sentence."], key: 1,
+      hint: "Try to answer the question with one person or one thing. Can you?",
+      rule: "Her ruling: <i>why</i> is NOT an interrogative pronoun. Who? → Dart (a person) = pronoun. Why? → because... (a reason) = not a pronoun." }
+  ]
+},
+{
+  id: "r2", group: "pos", title: "Adjective or pronoun?",
+  blurb: "One word, two jobs: his / his, those / those, whose.",
+  intro:
+    "<div><h3>Adjectives (describe a noun)</h3><ul>" +
+    "<li><b>descriptive</b>: a <i>brief</i> smile</li>" +
+    "<li><b>adjective of quantity</b>: <i>two</i> starving kids</li>" +
+    "<li><b>adjective of order</b>: the <i>first</i> day</li>" +
+    "<li><b>compound</b>: a <i>well-deserved</i> break</li>" +
+    "<li><b>possessive</b> (owns, a noun follows): <i>his</i> fingernails</li>" +
+    "<li><b>proper</b>: the <i>Barmuth</i> Meet</li>" +
+    "<li><b>interrogative</b> (asks, a noun follows): <i>whose</i> bag?</li>" +
+    "<li><b>demonstrative</b> (points, a noun follows): <i>those</i> tables</li>" +
+    "</ul></div>" +
+    "<div class='tests'><h3>Quick tests</h3><ul>" +
+    "<li><b>Noun right after it = adjective. Standing alone = pronoun.</b> my book / mine · those books / those</li>" +
+    "<li>Demonstrative = <b>points</b> (this, that, these, those). Possessive = <b>owns</b> (my, his, her).</li>" +
+    "<li>The why-sentence shape: <i>label</i>, not <i>the wrong label</i>, because <i>her test</i>.</li>" +
+    "</ul></div>",
+  qs: [
+    { id: "r2q1", type: "pick", s: "Willo pulls [his] hat down over his ears.",
+      opts: ["demonstrative adjective", "possessive adjective", "possessive pronoun", "personal pronoun"], key: 1,
+      hint: "What comes straight after it? And does it point, or does it own?",
+      rule: "Noun right after = adjective. Owns = possessive. So <i>his</i> + noun = possessive adjective. Demonstrative = points (this, that, these, those).",
+      why: "\"his\" is a possessive adjective because it stands in front of the noun \"hat\" and shows who owns it." },
+    { id: "r2q2", type: "pick", s: "The knife on the table is [his].",
+      opts: ["possessive adjective", "personal pronoun", "possessive pronoun", "demonstrative pronoun"], key: 2,
+      hint: "Is there a noun right after it, or does it stand alone at the end?",
+      rule: "Standing alone = pronoun. It owns = possessive. <i>his</i> (alone), <i>mine, ours, theirs</i> = possessive pronoun.",
+      why: "\"his\" is a possessive pronoun, not a possessive adjective, because it stands alone with no noun after it." },
+    { id: "r2q3", type: "pick", s: "[Those] boots by the fire are still wet.",
+      opts: ["demonstrative pronoun", "possessive adjective", "definite article", "demonstrative adjective"], key: 3,
+      hint: "Is there a noun right after it? Does it point, or does it own?",
+      rule: "Points + a noun right after = demonstrative adjective (<i>those</i> boots). Points + alone = demonstrative pronoun.",
+      why: "\"Those\" is a demonstrative adjective because it points to the noun \"boots\" right after it." },
+    { id: "r2q4", type: "pick", s: "Mary points at the furs and says, \"[Those] are warm.\"",
+      opts: ["demonstrative adjective", "demonstrative pronoun", "personal pronoun", "indefinite pronoun"], key: 1,
+      hint: "Is there a noun right after it this time?",
+      rule: "Points + stands alone = demonstrative pronoun. Same word as the last question, different job.",
+      why: "\"Those\" is a demonstrative pronoun, not a demonstrative adjective, because it points and stands alone with no noun after it." },
+    { id: "r2q5", type: "pick", s: "Willo finds [two] rabbits in the trap.",
+      opts: ["adjective of order", "adjective of quantity", "descriptive adjective", "indefinite pronoun"], key: 1,
+      hint: "Does it say how many, or which place in a row (first, last)?",
+      rule: "Adjective of quantity = how many / how much (two, many, some). Adjective of order = place in a row (first, last). The EP says \"definite adjective\"; her label is adjective of quantity.",
+      why: "\"two\" is an adjective of quantity because it tells how many rabbits there are." },
+    { id: "r2q6", type: "pick", s: "It is the [first] snow of the winter.",
+      opts: ["adjective of quantity", "adjective of order", "descriptive adjective", "adverb of time"], key: 1,
+      hint: "Does it say how many, or which place in a row?",
+      rule: "Adjective of order = position in a row (first, second, last).",
+      why: "\"first\" is an adjective of order because it gives the snow's place in a row." },
+    { id: "r2q7", type: "pick", s: "They walk all day to the [Barmuth] Meet.",
+      opts: ["proper noun", "common noun", "descriptive adjective", "proper adjective"], key: 3,
+      hint: "It is a name with a capital letter. But is there a noun right after it?",
+      rule: "A name used in front of a noun to describe it = proper adjective (her Activity 2c memo: <i>Barmuth</i> = proper adjective).",
+      why: "\"Barmuth\" is a proper adjective, not a proper noun, because it is a name standing in front of the noun \"Meet\" and describing it." },
+    { id: "r2q8", type: "pick", s: "[Whose] gloves are these?",
+      opts: ["interrogative adjective", "interrogative pronoun", "possessive adjective", "relative pronoun"], key: 0,
+      hint: "It asks. Is there a noun right after it?",
+      rule: "Asks + a noun right after = interrogative adjective (<i>whose</i> gloves?). Asks + stands alone = interrogative pronoun (<i>Who</i> left?).",
+      why: "\"Whose\" is an interrogative adjective because it asks a question and stands in front of the noun \"gloves\"." },
+    { id: "r2q9", type: "pick", s: "Dart gives Willo a [brief] smile.",
+      opts: ["adverb of manner", "descriptive adjective", "adjective of quantity", "abstract noun"], key: 1,
+      hint: "Which word does it describe? Is that word a noun or a verb?",
+      rule: "Descriptive adjective = describes what a noun is like (brief, cold, hungry).",
+      why: "\"brief\" is a descriptive adjective because it describes the noun \"smile\"." },
+    { id: "r2q10", type: "pick", s: "The snow in [my] boots is melting.",
+      ask: "The label is <b>possessive adjective</b>. Pick the best why-sentence.",
+      opts: [
+        "\"my\" is a possessive pronoun because it shows who the boots belong to.",
+        "\"my\" is a demonstrative adjective because it stands in front of the noun \"boots\".",
+        "\"my\" is a possessive adjective, not a possessive pronoun, because it stands in front of the noun \"boots\" and shows who owns them."], key: 2,
+      hint: "Owning is only half the test. What decides adjective or pronoun?",
+      rule: "Why-sentence shape: label, not the wrong label, because + her test. Owning alone is not enough: the noun right after it makes it an adjective." }
+  ]
+},
+{
+  id: "r3", group: "pos", title: "Which verb is it?",
+  blurb: "Hidden is in He's. Linking or finite. Helper and main verb.",
+  intro:
+    "<div><h3>Verbs</h3><ul>" +
+    "<li><b>finite verb</b>: the main action, shows tense, works alone (they <i>sing</i>)</li>" +
+    "<li><b>linking verb</b>: a state, not an action (I <i>feel</i> sorry)</li>" +
+    "<li><b>infinitive</b>: to + verb, she underlines only the verb (to <i>sing</i>)</li>" +
+    "<li><b>auxiliary verb</b>: a helper (I <i>can</i> see, she <i>is</i> seeing)</li>" +
+    "</ul></div>" +
+    "<div class='tests'><h3>Quick tests</h3><ul>" +
+    "<li><b>See 's after a pronoun? Open it up.</b> He's = He <i>is</i>.</li>" +
+    "<li><b>Linking?</b> Swap in am / is / are. \"I am sorry\" works = linking.</li>" +
+    "<li><b>is + describing word</b> = linking. <b>is + -ing / -ed verb</b> = auxiliary.</li>" +
+    "<li>Helper and main verb get separate labels: <i>can</i> = auxiliary, <i>see</i> = finite.</li>" +
+    "<li>Willo's voice drops verb endings (he <i>twitch</i>). The job stays the same.</li>" +
+    "</ul></div>",
+  qs: [
+    { id: "r3q1", type: "pick", s: "[He's] so cold that he can't feel his toes.",
+      ask: "\"He's\" hides a verb. Which is right?",
+      opts: ["is = linking verb", "is = auxiliary verb", "has = auxiliary verb", "He's = possessive pronoun"], key: 0,
+      hint: "Open it up: He ___ so cold. What comes after the hidden verb: an -ing word, or a describing word?",
+      rule: "See 's after a pronoun, open it up: He's = He <i>is</i>. <i>is</i> + a describing word (cold) = linking verb.",
+      why: "\"is\" (inside He's) is a linking verb because it links \"he\" to the describing word \"cold\"." },
+    { id: "r3q2", type: "pick", s: "[She's] stirring the soup over the fire.",
+      ask: "\"She's\" hides a verb. Which is right?",
+      opts: ["is = linking verb", "is = finite verb", "is = auxiliary verb", "She's = possessive pronoun"], key: 2,
+      hint: "Open it up: She is stirring. What comes after the \"is\"?",
+      rule: "<i>is</i> + an -ing or -ed verb = auxiliary (a helper). <i>is</i> + a describing word = linking.",
+      why: "\"is\" (inside She's) is an auxiliary verb because it helps the main verb \"stirring\"." },
+    { id: "r3q3", type: "pick", s: "Willo [can] see smoke above the trees.",
+      opts: ["finite verb", "auxiliary verb", "linking verb", "infinitive"], key: 1,
+      hint: "Is it the main action, or a helper standing in front of the main verb?",
+      rule: "Her label: helper and main verb are labelled separately. <i>can</i> = auxiliary verb, <i>see</i> = finite verb.",
+      why: "\"can\" is an auxiliary verb because it helps the main verb \"see\"." },
+    { id: "r3q4", type: "pick", s: "Willo can [see] smoke above the trees.",
+      opts: ["auxiliary verb", "infinitive", "finite verb", "present participle"], key: 2,
+      hint: "Is there a \"to\" in front of it? Is it the helper, or the main action?",
+      rule: "Her Activity 2a memo: <i>can</i> = auxiliary verb, <i>see</i> = finite verb.",
+      why: "\"see\" is a finite verb because it is the main action of the sentence; \"can\" only helps it." },
+    { id: "r3q5", type: "pick", s: "Dart wants to [eat] the whole rabbit.",
+      opts: ["finite verb", "auxiliary verb", "gerund (noun)", "infinitive"], key: 3,
+      hint: "What word sits just in front of it?",
+      rule: "<i>to</i> + verb = infinitive. She underlines only the verb, and after <i>to</i> it is never finite.",
+      why: "\"eat\" is an infinitive, not a finite verb, because it follows \"to\"." },
+    { id: "r3q6", type: "pick", s: "I [feel] sorry for Patrick.",
+      opts: ["finite verb", "linking verb", "auxiliary verb", "descriptive adjective"], key: 1,
+      hint: "Swap in am / is / are: \"I am sorry for Patrick.\" Does it still work?",
+      rule: "Swap in am / is / are. Still works = linking verb (a state, not an action). Her memo: <i>feel</i> (sorry) = linking verb.",
+      why: "\"feel\" is a linking verb, not a finite verb, because it links \"I\" to the describing word \"sorry\" (I am sorry works)." },
+    { id: "r3q7", type: "pick", s: "Mad Dog [barks] at the snow.",
+      opts: ["linking verb", "auxiliary verb", "finite verb", "infinitive"], key: 2,
+      hint: "Is it an action? Is there a helper, or a \"to\", in front of it?",
+      rule: "Finite verb = the main action, shows tense, works alone with its subject (barks, walked, sing).",
+      why: "\"barks\" is a finite verb because it is the main action that Mad Dog does, in the present tense." },
+    { id: "r3q8", type: "pick", s: "The fire [is] warm tonight.",
+      ask: "The label is <b>linking verb</b>. Pick the best why-sentence.",
+      opts: [
+        "\"is\" is an auxiliary verb because \"is\" is always a helper.",
+        "\"is\" is a linking verb, not an auxiliary verb, because it links \"the fire\" to the describing word \"warm\" and no -ing or -ed verb follows it.",
+        "\"is\" is a linking verb because it is a helping verb."], key: 1,
+      hint: "What comes after the \"is\": a verb, or a describing word?",
+      rule: "<i>is</i> + describing word = linking. <i>is</i> + -ing / -ed verb = auxiliary. The why names the test." },
+    { id: "r3q9", type: "pick", s: "Willo [is] walking up the hill.",
+      opts: ["linking verb", "auxiliary verb", "finite verb", "present participle"], key: 1,
+      hint: "What comes after the \"is\": a describing word, or an -ing verb?",
+      rule: "<i>is</i> + an -ing verb = auxiliary verb (her slide: she <i>is</i> seeing).",
+      why: "\"is\" is an auxiliary verb, not a linking verb, because it helps the -ing verb \"walking\"." },
+    { id: "r3q10", type: "pick", s: "Mad Dog [run] ahead of me in the snow.", voice: "Willo's voice: he drops verb endings.",
+      opts: ["infinitive", "finite verb", "linking verb", "present participle"], key: 1,
+      hint: "Willo drops the -s, but look at the job. Is there a \"to\" in front? Does Mad Dog do it?",
+      rule: "In Willo's voice verbs lose their endings (he <i>twitch</i>, Mad Dog <i>run</i>). Subject + main action = finite verb (her Activity 2b memo: <i>twitch</i> = finite verb).",
+      why: "\"run\" is a finite verb, not an infinitive, because it is Mad Dog's main action and there is no \"to\" in front of it." }
+  ]
+},
+{
+  id: "r4", group: "pos", title: "The -ing and -ed words",
+  blurb: "Gerund or participle. Her gerund (adjective). The had test.",
+  intro:
+    "<div><h3>Not quite verbs</h3><ul>" +
+    "<li><b>present participle</b>: -ing with a helper (she is <i>seeing</i>), or an opener like \"<i>Looking</i> up, he...\"</li>" +
+    "<li><b>past participle</b>: \"had\" fits in front (had <i>eaten</i>, had <i>broken</i>)</li>" +
+    "<li><b>gerund (noun)</b>: -ing doing a noun's job (thinks of <i>putting</i>)</li>" +
+    "<li><b>gerund (adjective)</b>: her label for an -ing word in front of a noun (the <i>understanding</i> man)</li>" +
+    "</ul></div>" +
+    "<div class='tests'><h3>Quick tests</h3><ul>" +
+    "<li><b>Swap in \"it\".</b> Still works = gerund (noun). Breaks = participle.</li>" +
+    "<li><b>Straight after a preposition</b> (of, about, at) = gerund (noun).</li>" +
+    "<li><b>-ing in front of a noun</b> = gerund (adjective). A grammar book says participle; her label wins.</li>" +
+    "<li><b>-ed / -en word:</b> put \"had\" in front. Works = past participle. No helper and it is the main action = finite.</li>" +
+    "</ul></div>",
+  qs: [
+    { id: "r4q1", type: "pick", s: "[Hunting] keeps the family alive in winter.",
+      opts: ["present participle", "gerund (noun)", "gerund (adjective)", "finite verb"], key: 1,
+      hint: "Swap in \"it\": \"It keeps the family alive.\" Does the sentence still work?",
+      rule: "Swap in \"it\". Still works = gerund (noun). Breaks = participle.",
+      why: "\"Hunting\" is a gerund (noun) because it does a noun's job as the subject (\"It keeps the family alive\" works)." },
+    { id: "r4q2", type: "pick", s: "Willo is [hunting] in the woods.",
+      opts: ["gerund (noun)", "gerund (adjective)", "present participle", "finite verb"], key: 2,
+      hint: "Is there a helper in front of it? Try \"it\": \"Willo is it in the woods\"?",
+      rule: "Helper + -ing = present participle (her slide: she is <i>seeing</i>). The <i>is</i> gets its own label: auxiliary.",
+      why: "\"hunting\" is a present participle, not a gerund, because it has the helper \"is\" and swapping in \"it\" breaks the sentence." },
+    { id: "r4q3", type: "pick", s: "Dart is tired of [walking].",
+      opts: ["present participle", "infinitive", "gerund (adjective)", "gerund (noun)"], key: 3,
+      hint: "What word sits just in front of it? Is that a preposition?",
+      rule: "Straight after a preposition = gerund (noun). Her memo: thinks of <i>putting</i> = gerund (noun).",
+      why: "\"walking\" is a gerund (noun) because it comes straight after the preposition \"of\" and does a noun's job." },
+    { id: "r4q4", type: "pick", s: "They cross the [flowing] stream.",
+      opts: ["present participle", "gerund (adjective)", "descriptive adjective", "gerund (noun)"], key: 1,
+      hint: "Is there a noun right after it? What is her label for an -ing word in front of a noun?",
+      rule: "Her label: an -ing word in front of a noun = gerund (adjective) (the understanding man, the flowing stream). A grammar book says participle, but she marks the test.",
+      why: "\"flowing\" is a gerund (adjective) because it is an -ing word describing the noun \"stream\" right after it." },
+    { id: "r4q5", type: "pick", s: "[Looking] up, Willo sees the smoke.",
+      opts: ["gerund (noun)", "present participle", "gerund (adjective)", "finite verb"], key: 1,
+      hint: "Swap in \"it\": \"It up, Willo sees the smoke\"? Does that work?",
+      rule: "Her Activity 2b memo: \"<i>Looking</i> up, he...\" = present participle. The \"it\" swap breaks, so it is not a gerund.",
+      why: "\"Looking\" is a present participle, not a gerund (noun), because swapping in \"it\" breaks the sentence; it describes what Willo is doing." },
+    { id: "r4q6", type: "pick", s: "Willo finds a [broken] sledge in the snow.",
+      opts: ["gerund (adjective)", "finite verb", "past participle", "descriptive adjective"], key: 2,
+      hint: "Put \"had\" in front: \"had broken\". Does that work? Is it an -ing word?",
+      rule: "\"had\" fits in front = past participle, even when it stands before a noun (the EP: <i>broken</i> hearts). Only -ing words in front of a noun get \"gerund (adjective)\".",
+      why: "\"broken\" is a past participle because \"had broken\" works and it is not an -ing word." },
+    { id: "r4q7", type: "pick", s: "Dad had [eaten] nothing for days.",
+      opts: ["finite verb", "present participle", "past participle", "infinitive"], key: 2,
+      hint: "What helper sits in front of it?",
+      rule: "<i>had</i> + -en / -ed word = past participle. The <i>had</i> gets its own label: auxiliary.",
+      why: "\"eaten\" is a past participle because the helper \"had\" stands in front of it." },
+    { id: "r4q8", type: "pick", s: "Willo [walked] to the farm before dark.",
+      opts: ["past participle", "auxiliary verb", "finite verb", "linking verb"], key: 2,
+      hint: "Is there a helper (had, has) in front of it? Does it work alone with Willo?",
+      rule: "-ed with no helper, as the main action = finite verb (shows past tense). -ed after had / has = past participle.",
+      why: "\"walked\" is a finite verb, not a past participle, because it has no helper and is Willo's main action in the past tense." },
+    { id: "r4q9", type: "pick", s: "Mary thinks about [leaving] the farm.",
+      ask: "The label is <b>gerund (noun)</b>. Pick the best why-sentence.",
+      opts: [
+        "\"leaving\" is a gerund (noun), not a present participle, because it comes straight after the preposition \"about\" and does a noun's job.",
+        "\"leaving\" is a present participle because it ends in -ing.",
+        "\"leaving\" is a gerund (adjective) because it describes the farm."], key: 0,
+      hint: "What word comes just before \"leaving\"? Which test does that trigger?",
+      rule: "After a preposition = gerund (noun). Ending in -ing tells you nothing on its own: name the test." },
+    { id: "r4q10", type: "pick", s: "The [freezing] wind cuts through Willo's coat.",
+      opts: ["present participle", "gerund (noun)", "gerund (adjective)", "past participle"], key: 2,
+      hint: "Is there a noun right after it?",
+      rule: "-ing word in front of a noun = gerund (adjective), her label.",
+      why: "\"freezing\" is a gerund (adjective) because it is an -ing word describing the noun \"wind\"." }
+  ]
+},
+{
+  id: "r5", group: "pos", title: "Adverbs and word forms",
+  blurb: "The five adverb types. So close. permanent or permanently.",
+  intro:
+    "<div><h3>Adverbs (describe the verb or action)</h3><ul>" +
+    "<li><b>manner</b>, how? smiled <i>happily</i></li>" +
+    "<li><b>place</b>, where? kept <i>there</i></li>" +
+    "<li><b>time</b>, when? left <i>yesterday</i></li>" +
+    "<li><b>frequency</b>, how often? thinking <i>again</i>. Her label: <i>again, permanently</i> = frequency</li>" +
+    "<li><b>degree</b>, how much? <i>so</i> close, <i>very</i> cold</li>" +
+    "</ul></div>" +
+    "<div class='tests'><h3>Quick tests</h3><ul>" +
+    "<li><b>so / very in front of an adjective</b> = adverb of degree.</li>" +
+    "<li><b>\"very\" fits in front</b> = adjective (very close). <b>\"the\" fits in front</b> = noun (the closeness).</li>" +
+    "<li><b>The adverb slot takes -ly:</b> permanent → permanently, serious → seriously.</li>" +
+    "</ul></div>",
+  qs: [
+    { id: "r5q1", type: "pick", s: "Willo creeps [quietly] past the sleeping dogs.",
+      opts: ["adverb of degree", "adverb of manner", "descriptive adjective", "adverb of place"], key: 1,
+      hint: "Which question does it answer: how? where? when? how often? how much?",
+      rule: "Adverb of manner = answers <b>how?</b> (quietly, happily, slowly).",
+      why: "\"quietly\" is an adverb of manner because it tells how Willo creeps." },
+    { id: "r5q2", type: "pick", s: "Dad left the farm [yesterday].",
+      opts: ["adverb of frequency", "adverb of place", "adverb of time", "common noun"], key: 2,
+      hint: "Which question does it answer: when, or how often?",
+      rule: "Adverb of time = answers <b>when?</b> (yesterday, soon, now).",
+      why: "\"yesterday\" is an adverb of time because it tells when Dad left." },
+    { id: "r5q3", type: "pick", s: "Mary waits [outside].",
+      opts: ["preposition", "adverb of place", "adverb of manner", "common noun"], key: 1,
+      hint: "Does anything follow it? \"outside the hut\", or just \"outside.\"?",
+      rule: "Something follows = preposition (outside <i>the hut</i>). Nothing follows = adverb of place. The EP: we played <i>inside</i> = adverb of place.",
+      why: "\"outside\" is an adverb of place, not a preposition, because nothing follows it and it tells where Mary waits." },
+    { id: "r5q4", type: "pick", s: "Mad Dog barks [again].",
+      opts: ["adverb of time", "adverb of degree", "adverb of frequency", "adverb of manner"], key: 2,
+      hint: "Where does her slide put <i>again</i>: when, or how often?",
+      rule: "Her label: <i>again</i> and <i>permanently</i> = adverb of frequency (how often).",
+      why: "\"again\" is an adverb of frequency because it tells how often Mad Dog barks." },
+    { id: "r5q5", type: "pick", s: "The fire is [so] close that Willo's face burns.",
+      opts: ["descriptive adjective", "coordinating conjunction", "adverb of manner", "adverb of degree"], key: 3,
+      hint: "Swap it for \"very\": \"very close\". Does that work?",
+      rule: "<i>so / very</i> in front of an adjective = adverb of degree (how much?). Careful: <i>so</i> between two clauses is a FANBOYS conjunction.",
+      why: "\"so\" is an adverb of degree, not an adjective, because it stands in front of the adjective \"close\" and shows how much." },
+    { id: "r5q6", type: "pick", s: "The fire is so [close] that Willo's face burns.",
+      opts: ["abstract noun", "descriptive adjective", "adverb of place", "preposition"], key: 1,
+      hint: "Put \"very\" in front: very close? Put \"the\" in front: the close? Which one works?",
+      rule: "\"very\" fits = adjective. \"the\" fits = noun. The noun form is <i>closeness</i>.",
+      why: "\"close\" is a descriptive adjective, not an abstract noun, because \"very close\" works and it describes the fire." },
+    { id: "r5q7", type: "pick", s: "Willo wants to stay on the farm ____.",
+      ask: "Which word fits the gap?",
+      opts: ["permanent", "permanence", "permanently"], key: 2,
+      hint: "The gap tells us how long he stays, so it describes the verb. Which form goes in the adverb slot?",
+      rule: "The adverb slot takes the -ly form: permanent (adjective) → permanently (adverb).",
+      why: "\"permanently\" fits because the gap describes the verb \"stay\", and the adverb slot takes the -ly form." },
+    { id: "r5q8", type: "pick", s: "Dart does not take the cold ____ enough.",
+      ask: "Which word fits the gap?",
+      opts: ["seriously", "serious", "seriousness"], key: 0,
+      hint: "The gap describes the verb \"take\". Which form goes in the adverb slot?",
+      rule: "The adverb slot takes -ly: serious (adjective) → seriously (adverb).",
+      why: "\"seriously\" fits because it describes how Dart takes the cold." },
+    { id: "r5q9", type: "pick", s: "The ____ of the wild dogs frightens Mary.",
+      ask: "Which word fits the gap?",
+      opts: ["close", "closely", "closeness"], key: 2,
+      hint: "\"the\" sits right in front of the gap. Which form takes \"the\"?",
+      rule: "\"the\" in front = a noun slot: close (adjective) → closeness (noun).",
+      why: "\"closeness\" fits because \"the\" in front of the gap calls for a noun." },
+    { id: "r5q10", type: "pick", s: "Mary is [very] tired.",
+      ask: "The label is <b>adverb of degree</b>. Pick the best why-sentence.",
+      opts: [
+        "\"very\" is a descriptive adjective because it describes Mary.",
+        "\"very\" is an adverb of manner because it shows how Mary is tired.",
+        "\"very\" is an adverb of degree, not an adjective, because it stands in front of the adjective \"tired\" and shows how much."], key: 2,
+      hint: "Which question does \"very\" answer: how, or how much?",
+      rule: "<i>very / so</i> + adjective = adverb of degree: it answers <b>how much?</b>" }
+  ]
+},
+{
+  id: "r6", group: "pos", title: "The small words",
+  blurb: "Preposition hunt. FANBOYS or not. a or an by sound.",
+  intro:
+    "<div><h3>Prepositions (show relationships)</h3>" +
+    "<p>Before a noun, pronoun, article or gerund: the dirt <i>under</i> his fingernails.</p>" +
+    "<p>in · on · of · with · at · by · to · from · for · about · over · under · near · during · towards · across · beside · above</p></div>" +
+    "<div><h3>Conjunctions</h3><ul>" +
+    "<li><b>coordinating</b> = FANBOYS: for, and, nor, but, or, yet, so</li>" +
+    "<li><b>subordinating</b> = every other one: if, when, because, although. Her slide also puts <i>however, which, like</i> here.</li>" +
+    "</ul></div>" +
+    "<div><h3>Articles</h3><ul>" +
+    "<li><b>definite</b>: the · <b>indefinite</b>: a, an</li>" +
+    "<li>a or an goes by the SOUND: <i>an</i> hour, <i>a</i> university</li>" +
+    "</ul></div>" +
+    "<div class='tests'><h3>Quick tests</h3><ul>" +
+    "<li><b>Small prepositions hide</b>: in, with, of, on. Hunt word by word.</li>" +
+    "<li><b>Preposition or adverb?</b> Something follows = preposition. Nothing follows = adverb.</li>" +
+    "</ul></div>",
+  qs: [
+    { id: "r6q1", type: "tap", s: "Willo sits {by} the fire {with} a bowl {of} soup {in} his hands.",
+      ask: "Tap every <b>preposition</b>, then press Check.",
+      hint: "Go word by word and stop at every tiny word. Does a noun group come right after it (the fire, a bowl, his hands)?",
+      rule: "by · with · of · in. The small ones (in, with, of, on) are the ones that get walked past. Hunt word by word." },
+    { id: "r6q2", type: "tap", s: "Mary walks {across} the yard and looks {over} the wall {at} the hills.",
+      ask: "Tap every <b>preposition</b>, then press Check.",
+      hint: "\"and\" joins two actions: that is a conjunction, not a preposition. Which tiny words have a noun group right after them?",
+      rule: "across · over · at. <i>and</i> is a coordinating conjunction (FANBOYS)." },
+    { id: "r6q3", type: "tap", s: "Dart is afraid {of} the dark, so he sleeps {near} Willo {during} the storm.",
+      ask: "Tap every <b>preposition</b>, then press Check.",
+      hint: "\"so\" joins two clauses here: FANBOYS. Look for the tiny words with a noun or name right after them.",
+      rule: "of · near · during. <i>so</i> joining two clauses = coordinating conjunction." },
+    { id: "r6q4", type: "pick", s: "Mad Dog runs [inside].",
+      opts: ["preposition", "adverb of place", "adverb of manner", "common noun"], key: 1,
+      hint: "Does anything follow it? \"inside the hut\", or just \"inside.\"?",
+      rule: "Something follows = preposition. Nothing follows = adverb of place. The EP: we played Tetris <i>inside</i> = adverb of place.",
+      why: "\"inside\" is an adverb of place, not a preposition, because nothing follows it and it tells where Mad Dog runs." },
+    { id: "r6q5", type: "pick", s: "Willo is cold, [but] he keeps walking.",
+      opts: ["subordinating conjunction", "coordinating conjunction", "preposition", "adverb of degree"], key: 1,
+      hint: "Is it one of FANBOYS: for, and, nor, but, or, yet, so?",
+      rule: "FANBOYS = coordinating conjunction. Every other conjunction = subordinating (her slide).",
+      why: "\"but\" is a coordinating conjunction because it is one of FANBOYS and joins two equal clauses." },
+    { id: "r6q6", type: "pick", s: "[If] the snow melts, the boat can sail.",
+      opts: ["coordinating conjunction", "preposition", "subordinating conjunction", "adverb of time"], key: 2,
+      hint: "Is \"if\" one of FANBOYS?",
+      rule: "Not FANBOYS = subordinating conjunction (if, when, because, although).",
+      why: "\"If\" is a subordinating conjunction because it is not one of FANBOYS and it joins a clause that depends on the main one." },
+    { id: "r6q7", type: "pick", s: "The food is gone. [However], Willo still has the rabbit skins.",
+      opts: ["coordinating conjunction", "subordinating conjunction", "adverb of manner", "preposition"], key: 1,
+      hint: "Is \"however\" one of FANBOYS? Where does her conjunctions slide put it?",
+      rule: "Her slide puts <i>however</i> (and <i>nonetheless, which</i>) under subordinating conjunction. A grammar book calls it a conjunctive adverb, but she marks the test.",
+      why: "\"However\" is a subordinating conjunction because it is not one of FANBOYS (her slide files it under subordinating)." },
+    { id: "r6q8", type: "pick", s: "Willo needs [an] axe.",
+      opts: ["definite article", "adjective of quantity", "indefinite article", "preposition"], key: 2,
+      hint: "Does it point to one particular axe, or to any axe?",
+      rule: "a / an = indefinite article (any one). the = definite article (that particular one).",
+      why: "\"an\" is an indefinite article because it means any axe, not one particular axe." },
+    { id: "r6q9", type: "pick", s: "a or an?",
+      ask: "Which pair is right? Say them out loud.",
+      opts: ["a hour · a university", "an hour · an university", "an hour · a university", "a hour · an university"], key: 2,
+      hint: "Listen to the first SOUND, not the letter. \"hour\" starts with a silent h. \"university\" starts with a \"you\" sound.",
+      rule: "a / an goes by the SOUND: <i>an</i> hour (vowel sound), <i>a</i> university (\"you\" sound). Same check for your own writing: <i>an</i> adverb, <i>an</i> adjective." },
+    { id: "r6q10", type: "pick", s: "Mad Dog barks [and] tugs on Willo's sleeve.",
+      ask: "The label is <b>coordinating conjunction</b>. Pick the best why-sentence.",
+      opts: [
+        "\"and\" is a subordinating conjunction because it joins two clauses.",
+        "\"and\" is a coordinating conjunction, not a subordinating conjunction, because it is one of FANBOYS and joins two equal actions.",
+        "\"and\" is a preposition because it shows how barking and tugging are related."], key: 1,
+      hint: "Which list decides coordinating?",
+      rule: "Coordinating = FANBOYS. The why-sentence names that test." }
+  ]
+},
+{
+  id: "m1", group: "morph", title: "Count and split",
+  blurb: "Morphemes in braces. Free or bound. Hidden-word traps.",
+  intro:
+    "<div><h3>Key terms</h3><ul>" +
+    "<li><b>morpheme</b>: the smallest unit of meaning (cat + s = 2)</li>" +
+    "<li><b>free</b>: can stand alone as a word (dog, happy)</li>" +
+    "<li><b>bound</b>: cannot stand alone, an affix (un-, -ness, -ed)</li>" +
+    "<li><b>root</b>: the core meaning (un<i>happi</i>ness: root happy)</li>" +
+    "</ul></div>" +
+    "<div><h3>How to break a word down</h3><ul>" +
+    "<li>Find the <b>root</b> first, then peel off the prefixes and suffixes.</li>" +
+    "<li>Morphemes go in <b>braces</b>: {dis}{agree}{ment}</li>" +
+    "</ul></div>" +
+    "<div class='tests'><h3>Traps</h3><ul>" +
+    "<li><b>Hidden word</b> only counts if it shares the meaning: {table}{s}, not \"tab\".</li>" +
+    "<li><b>Spelling changes</b> don't matter: {beauty}{ful}.</li>" +
+    "<li><b>Free or bound?</b> Look at THIS word: <i>ship</i> alone = free, friend<i>ship</i> = bound.</li>" +
+    "<li><b>Don't stop early</b>: {dis}{agree}{ment}, not {dis}{agreement}.</li>" +
+    "<li><b>A homonym</b> (mean = unkind / average) is still ONE free morpheme.</li>" +
+    "</ul></div>",
+  qs: [
+    { id: "m1q1", type: "pick", s: "unhappiness", ask: "How many morphemes?",
+      opts: ["2", "3", "4", "5"], key: 1,
+      hint: "Find the root first (happy). Then count what sits in front of it and behind it.",
+      rule: "{un}{happy}{ness} = 3. The y → i spelling change does not matter." },
+    { id: "m1q2", type: "pick", s: "reopening", ask: "What is the <b>root</b>?",
+      opts: ["reopen", "open", "pen", "opening"], key: 1,
+      hint: "Peel off everything at the front and the back until it can't shrink. Does \"pen\" share the meaning?",
+      rule: "{re}{open}{ing}: root = open. \"pen\" is a hidden word that does not share the meaning, so it does not count." },
+    { id: "m1q3", type: "pick", s: "carpet", ask: "How many morphemes?",
+      opts: ["1", "2", "3", "4"], key: 0,
+      hint: "Do \"car\" and \"pet\" have anything to do with what a carpet means?",
+      rule: "A hidden word only counts if it shares the meaning. {carpet} = 1 free morpheme." },
+    { id: "m1q4", type: "pick", s: "unbreakable", ask: "How many morphemes?",
+      opts: ["2", "3", "4", "5"], key: 1,
+      hint: "Root first: break. Then what is stuck on in front, and behind?",
+      rule: "{un}{break}{able} = 3." },
+    { id: "m1q5", type: "pick", s: "hopelessly", ask: "How many morphemes?",
+      opts: ["1", "2", "3", "4"], key: 2,
+      hint: "Root first: hope. Then peel the endings off one by one.",
+      rule: "{hope}{less}{ly} = 3. The suffixes stack: noun → adjective → adverb." },
+    { id: "m1q6", type: "pick", s: "disagreements", ask: "Which split is right?",
+      opts: ["{dis}{agreement}{s}", "{disagree}{ments}", "{dis}{agree}{ment}{s}", "{dis}{a}{gree}{ments}"], key: 2,
+      hint: "Keep going until the root can't shrink, and give every ending its own braces.",
+      rule: "Root first (agree), then peel: {dis}{agree}{ment}{s} = 4. Don't stop early." },
+    { id: "m1q7", type: "pick", s: "beautifully", ask: "Which split is right?",
+      opts: ["{beauti}{ful}{ly}", "{beauty}{ful}{ly}", "{beautiful}{ly}", "{beau}{ti}{ful}{ly}"], key: 1,
+      hint: "Spelling changes don't matter. How do you write the root as a word?",
+      rule: "Write the root as the word: {beauty}{ful}{ly} = 3. The y → i change is ignored." },
+    { id: "m1q8", type: "pick", s: "friendship", ask: "In this word, is <b>-ship</b> free or bound?",
+      opts: ["free, because \"ship\" is a word", "bound, because here it cannot stand alone with this meaning", "free, because it is the root", "bound, because it is a prefix"], key: 1,
+      hint: "In THIS word, does \"ship\" mean a boat?",
+      rule: "Look at THIS word, not the letters. In friendship, -ship means \"the state of being\" and can't stand alone with that meaning = bound (a suffix)." },
+    { id: "m1q9", type: "pick", s: "rewrite", ask: "Which morpheme is <b>free</b>?",
+      opts: ["re", "write", "both", "neither"], key: 1,
+      hint: "Which part can stand alone as a word?",
+      rule: "free = can stand alone as a word (write). re- is a prefix = bound." },
+    { id: "m1q10", type: "pick", s: "mean", ask: "\"mean\" can mean unkind, average, or to signify. How many morphemes is it?",
+      opts: ["1", "2", "3", "it depends on the meaning"], key: 0,
+      hint: "Does having many meanings split the word into parts?",
+      rule: "A homonym is still ONE free morpheme: {mean}." }
+  ]
+},
+{
+  id: "m2", group: "morph", title: "Inflectional or derivational?",
+  blurb: "The 8 inflections. The -er trap. Prefixes are never inflectional.",
+  intro:
+    "<div><h3>Inflectional vs derivational</h3><ul>" +
+    "<li><b>Inflectional</b>: changes the form (tense, number, degree). Class <b>never</b> changes. Only suffixes. Only 8.</li>" +
+    "<li><b>Derivational</b>: makes a NEW word. Class <b>often</b> changes (happy → happiness). Prefixes and suffixes. Very many.</li>" +
+    "<li>Still derivational with the same class: visible → <i>in</i>visible, create → <i>re</i>create.</li>" +
+    "</ul></div>" +
+    "<div><h3>The 8 inflections (all suffixes)</h3><ul>" +
+    "<li>-s plural (cats) · -'s possessive (cat's) · -s 3rd person (runs) · -ed past tense (walked)</li>" +
+    "<li>-en past participle (eaten) · -ing present participle (running) · -er comparative (faster) · -est superlative (fastest)</li>" +
+    "</ul></div>" +
+    "<div class='tests'><h3>Quick tests</h3><ul>" +
+    "<li><b>See a prefix?</b> Derivational, always.</li>" +
+    "<li><b>Class changed?</b> Derivational. Same class? Inflectional only if it is one of the 8.</li>" +
+    "<li><b>The -er trap</b>: cheap<i>er</i> only compares = inflectional. teach<i>er</i> = a new word = derivational.</li>" +
+    "</ul></div>",
+  qs: [
+    { id: "m2q1", type: "pick", s: "She [runs] to the gate.", ask: "What does the <b>-s</b> show?",
+      opts: ["plural", "3rd person", "possessive", "past tense"], key: 1,
+      hint: "Is \"runs\" a noun or a verb here? Who is doing it?",
+      rule: "-s on a verb after he / she / it = 3rd person. -s on a noun = plural." },
+    { id: "m2q2", type: "pick", s: "kindness", ask: "What is <b>-ness</b>, and why?",
+      opts: [
+        "inflectional, because it is a suffix",
+        "derivational, because the word class changes (adjective → noun)",
+        "inflectional, because it is one of the 8",
+        "derivational, because it is a prefix"], key: 1,
+      hint: "kind is an adjective. What is kindness?",
+      rule: "Class changed = derivational. Being a suffix proves nothing: both kinds can be suffixes." },
+    { id: "m2q3", type: "pick", s: "cheaper", ask: "What is <b>-er</b> here, and why?",
+      opts: [
+        "derivational, because it makes a new word",
+        "inflectional, because it only compares, and -er (comparative) is one of the 8",
+        "derivational, because the class changes",
+        "inflectional, because the class changes"], key: 1,
+      hint: "cheap, cheaper, cheapest: is that a new word, or the same word in a comparing form?",
+      rule: "The -er trap: <i>cheaper</i> only compares = inflectional (comparative)." },
+    { id: "m2q4", type: "pick", s: "farmer", ask: "What is <b>-er</b> here, and why?",
+      opts: [
+        "inflectional, because -er is the comparative, one of the 8",
+        "inflectional, because the class stays the same",
+        "derivational, because it makes a new word for a person, and this -er is not one of the 8",
+        "derivational, because it is a prefix"], key: 2,
+      hint: "Does \"farmer\" compare anything (more farm)? Or is it a new word?",
+      rule: "The -er trap, other side: farm<i>er</i>, teach<i>er</i> = a new word for a person = derivational." },
+    { id: "m2q5", type: "pick", s: "unkind", ask: "What is <b>un-</b>, and why?",
+      opts: [
+        "inflectional, because the class stays an adjective",
+        "inflectional, because it is one of the 8",
+        "derivational, because the class changes to a noun",
+        "derivational, because it is a prefix, and inflections are never prefixes"], key: 3,
+      hint: "Where do all 8 inflections sit: at the front or at the end?",
+      rule: "See a prefix? Derivational, always. All 8 inflections are suffixes." },
+    { id: "m2q6", type: "pick", s: "Dad had [eaten] nothing.", ask: "What does the <b>-en</b> show?",
+      opts: ["past tense", "past participle", "plural", "comparative"], key: 1,
+      hint: "There is a \"had\" in front of it.",
+      rule: "-en (had eaten, had broken) = past participle, one of the 8." },
+    { id: "m2q7", type: "pick", s: "Willo is [running] to the hut.", ask: "What does the <b>-ing</b> show?",
+      opts: ["past participle", "3rd person", "present participle", "plural"], key: 2,
+      hint: "There is a helper \"is\" in front of it.",
+      rule: "-ing after a helper = present participle, one of the 8." },
+    { id: "m2q8", type: "pick", s: "dark", ask: "Which word has a <b>derivational</b> suffix?",
+      opts: ["darker", "darkest", "darkness", "dogs"], key: 2,
+      hint: "Which one turns the word into a different class?",
+      rule: "dark (adjective) → darkness (noun) = derivational. darker / darkest only compare, and dogs is plural: all three are inflections." },
+    { id: "m2q9", type: "pick", s: "recreate", ask: "\"create\" and \"recreate\" are both verbs. So what is <b>re-</b>?",
+      opts: [
+        "inflectional, because the class did not change",
+        "derivational, because it makes a new meaning, and inflections are never prefixes",
+        "inflectional, because it is one of the 8",
+        "derivational, because the class changes"], key: 1,
+      hint: "Is re- one of the 8? Where does it sit?",
+      rule: "Still derivational: same class, new meaning (visible → invisible, create → recreate)." },
+    { id: "m2q10", type: "pick", s: "Willo's coat is wet.", ask: "What does the <b>'s</b> in Willo's show?",
+      opts: ["plural", "3rd person", "a hidden \"is\"", "possessive"], key: 3,
+      hint: "Is a noun right after it (coat)? Can you open it up into \"Willo is coat\"?",
+      rule: "'s on a noun with a noun after it = possessive, one of the 8. Compare He's = He <i>is</i>: there the 's is a hidden verb." }
+  ]
+},
+{
+  id: "s1", group: "test", title: "Spot my errors A",
+  blurb: "Willo and Mary walking. 8 labels, 3 are wrong.",
+  spot: {
+    extract: "Willo pulls [1:his] coat tight and [2:stares] at the hills. He[3:'s] [4:so] tired that every step [5:hurts]. Mary walks [6:beside] him, [7:singing] softly to keep [8:herself] warm.",
+    items: [
+      { n: 1, word: "his", says: "demonstrative adjective", wrong: true, fix: "possessive adjective",
+        model: "\"his\" is a possessive adjective, not a demonstrative adjective, because it stands in front of the noun \"coat\" and shows who owns it; it does not point." },
+      { n: 2, word: "stares", says: "finite verb" },
+      { n: 3, word: "'s (He's)", says: "finite verb", wrong: true, fix: "linking verb",
+        model: "\"is\" (inside He's) is a linking verb, not a finite verb, because it links \"he\" to the describing word \"tired\": it shows a state, not an action." },
+      { n: 4, word: "so", says: "adverb of degree" },
+      { n: 5, word: "hurts", says: "finite verb" },
+      { n: 6, word: "beside", says: "preposition" },
+      { n: 7, word: "singing", says: "gerund (noun)", wrong: true, fix: "present participle",
+        model: "\"singing\" is a present participle, not a gerund (noun), because it does not do a noun's job: swapping in \"it\" breaks the sentence." },
+      { n: 8, word: "herself", says: "reflexive pronoun" }
+    ]
+  }
+},
+{
+  id: "s2", group: "test", title: "Spot my errors B",
+  blurb: "The dogs at night. 8 labels, 3 are wrong.",
+  spot: {
+    extract: "[1:The] dogs howl [2:at] night, [3:but] Willo is not afraid. He has [4:often] heard [5:them] before. Dart is tired of [6:waiting], and [7:those] cold hours by the fire feel [8:long].",
+    items: [
+      { n: 1, word: "The", says: "definite article" },
+      { n: 2, word: "at", says: "adverb of place", wrong: true, fix: "preposition",
+        model: "\"at\" is a preposition, not an adverb of place, because the noun \"night\" follows it and it shows a relationship of time." },
+      { n: 3, word: "but", says: "subordinating conjunction", wrong: true, fix: "coordinating conjunction",
+        model: "\"but\" is a coordinating conjunction, not a subordinating conjunction, because it is one of FANBOYS and joins two equal clauses." },
+      { n: 4, word: "often", says: "adverb of frequency" },
+      { n: 5, word: "them", says: "personal pronoun" },
+      { n: 6, word: "waiting", says: "present participle", wrong: true, fix: "gerund (noun)",
+        model: "\"waiting\" is a gerund (noun), not a present participle, because it comes straight after the preposition \"of\" and does a noun's job." },
+      { n: 7, word: "those", says: "demonstrative adjective" },
+      { n: 8, word: "long", says: "descriptive adjective" }
+    ]
+  }
+},
+{
+  id: "s3", group: "test", title: "Spot my errors C",
+  blurb: "Building the fire. 8 labels, 3 are wrong.",
+  spot: {
+    extract: "A [1:flock] of birds rises [2:above] the frozen lake. Willo [3:feels] cold, so he [4:quickly] builds a fire. Mary watches [5:the] [6:burning] sticks. [7:Everyone] in the hut is hungry, but the last rabbit is [8:theirs].",
+    items: [
+      { n: 1, word: "flock", says: "collective noun" },
+      { n: 2, word: "above", says: "preposition" },
+      { n: 3, word: "feels", says: "finite verb", wrong: true, fix: "linking verb",
+        model: "\"feels\" is a linking verb, not a finite verb, because it links Willo to the describing word \"cold\" (Willo is cold works)." },
+      { n: 4, word: "quickly", says: "adverb of degree", wrong: true, fix: "adverb of manner",
+        model: "\"quickly\" is an adverb of manner, not an adverb of degree, because it tells how Willo builds the fire, not how much." },
+      { n: 5, word: "the", says: "definite article" },
+      { n: 6, word: "burning", says: "gerund (noun)", wrong: true, fix: "gerund (adjective)",
+        model: "\"burning\" is a gerund (adjective), not a gerund (noun), because it is an -ing word describing the noun \"sticks\" right after it." },
+      { n: 7, word: "Everyone", says: "indefinite pronoun" },
+      { n: 8, word: "theirs", says: "possessive pronoun" }
+    ]
+  }
+}
+];
+
+var GROUPS = [
+  ["pos", "Parts of speech"],
+  ["morph", "Morphology"],
+  ["test", "Test style: spot my errors"]
+];
+
+var QMAP = {}, RMAP = {};
+ROUNDS.forEach(function (r) {
+  RMAP[r.id] = r;
+  (r.qs || []).forEach(function (q) { QMAP[q.id] = q; });
+});
+
+/* ---------------- helpers ---------------- */
+function esc(t) { return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+function under(s) { return s.replace(/\[([^\]]+)\]/g, "<u>$1</u>"); }
+function shuffle(n) {
+  var a = []; for (var i = 0; i < n; i++) a.push(i);
+  for (var j = n - 1; j > 0; j--) { var k = Math.floor(Math.random() * (j + 1)); var t = a[j]; a[j] = a[k]; a[k] = t; }
+  return a;
+}
+function tokens(s) {
+  return s.split(" ").map(function (w) {
+    var m = w.match(/^\{([^}]+)\}(.*)$/);
+    return m ? { t: m[1] + m[2], key: true } : { t: w, key: false };
+  });
+}
+function plural(n, one, many) { return n + " " + (n === 1 ? one : many); }
+function fmtDate(iso) {
+  try { var d = new Date(iso); return d.toLocaleDateString(undefined, { day: "numeric", month: "short" }) + ", " + d.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" }); }
+  catch (e) { return ""; }
+}
+
+/* Lize's GitHub copy is built from this file with COPY_MODE = true (build-lize-copy.py):
+   no db, every run kept in this browser, and a "Copy my results" button for her own Claude. */
+var COPY_MODE = true;
+var RUNS_KEY = "engv-a4-drills-runs";
+function readRuns() { try { return JSON.parse(localStorage.getItem(RUNS_KEY) || "[]"); } catch (e) { return []; } }
+function keepRun(rec) { try { var r = readRuns(); r.push(rec); localStorage.setItem(RUNS_KEY, JSON.stringify(r)); return true; } catch (e) { return false; } }
+
+/* ---------------- hist (db first, this browser as a fallback) ---------------- */
+var HIST_KEY = "engv-a4-drills-hist";
+var hist = [];
+function readLocal() { try { return JSON.parse(localStorage.getItem(HIST_KEY) || "[]"); } catch (e) { return []; } }
+function writeLocal() { try { localStorage.setItem(HIST_KEY, JSON.stringify(hist.slice(-300))); } catch (e) {} }
+function summarise(rec) {
+  return { round: rec.round, at: rec.at, mode: rec.mode, firstTry: rec.firstTry, afterHint: rec.afterHint, taught: rec.taught, total: rec.total, spotted: rec.spotted, corrected: rec.corrected };
+}
+function addHist(sum) {
+  var dup = hist.some(function (h) { return h.at === sum.at && h.round === sum.round; });
+  if (!dup) hist.push(sum);
+}
+function roundHist(id) {
+  return hist.filter(function (h) { return h.round === id; }).sort(function (a, b) { return a.at < b.at ? -1 : 1; });
+}
+function resultLine(h) {
+  if (!h) return "";
+  if (h.mode === "spot") return "Last: spotted " + h.spotted + "/3 · corrected " + h.corrected + "/3 · " + fmtDate(h.at);
+  return "Last: " + h.firstTry + " first try · " + h.afterHint + " after hint · " + h.taught + " taught" + (h.mode === "redo" ? " (redo)" : "") + " · " + fmtDate(h.at);
+}
+
+var dbPromise = null;
+function getDb() {
+  if (!dbPromise) {
+    dbPromise = (!COPY_MODE && window.claude && window.claude.use) ? window.claude.use("db").catch(function () { return null; }) : Promise.resolve(null);
+  }
+  return dbPromise;
+}
+function loadHistory() {
+  hist = readLocal();
+  if (S.view === "menu") render();
+  getDb().then(function (db) {
+    if (!db) return;
+    return db.collection("runs").get().then(function (snap) {
+      snap.docs.forEach(function (d) { var x = d.data(); if (x && x.round && x.at) addHist(summarise(x)); });
+      writeLocal();
+      if (S.view === "menu") render();
+    });
+  }).catch(function () {});
+}
+function saveRun(rec) {
+  addHist(summarise(rec)); writeLocal();
+  if (COPY_MODE) {
+    var kept = keepRun(rec);
+    if (!kept) lastRun = rec;
+    S.saveMsg = kept
+      ? "Kept in this browser. Press Copy my results to send it to your Claude."
+      : "This browser won't keep results (private window?). Press Copy my results now, before you leave this page.";
+    render(); return;
+  }
+  S.saveMsg = "Saving your round...";
+  getDb().then(function (db) {
+    if (!db) { S.saveMsg = "This copy can't send results. Open the claude.ai link so your tutor can read them."; render(); return; }
+    return db.collection("runs").add(rec).then(function () {
+      S.saveMsg = "Saved. Your tutor can read this round.";
+      render();
+    });
+  }).catch(function () {
+    S.saveMsg = "Not saved (connection hiccup). Your result is still on this screen.";
+    render();
+  });
+}
+
+/* ---------------- export (COPY_MODE) ---------------- */
+var lastRun = null;
+function plainS(s) { return s.replace(/[{}]/g, ""); }
+function exportText() {
+  var runs = readRuns();
+  if (!runs.length && lastRun) runs = [lastRun];
+  var L = [];
+  L.push("ENGV121 A4 word drills: my results (copied " + fmtDate(new Date().toISOString()) + ")");
+  L.push("Labels follow Dr Annandale's 27 Sep slides. [word] = the underlined word.");
+  L.push("For my Claude: please mark each typed why-sentence 1 or 0. A full mark names the correct label, says it is not the wrong label, and gives the reason or test. Then tell me which rules to revise first.");
+  runs.forEach(function (r) {
+    L.push("");
+    if (r.mode === "spot") {
+      var sp = RMAP[r.round] && RMAP[r.round].spot;
+      L.push("== " + r.roundTitle + " · " + fmtDate(r.at) + " · " + r.minutes + " min");
+      L.push("Spotted " + r.spotted + "/3 (" + (r.spotResult === "first" ? "first try" : r.spotResult === "hint" ? "after the hint" : "shown the answer") + ") · corrected " + r.corrected + "/3 · flags on right labels: " + (r.falseFlags || 0));
+      if (sp) L.push("Extract: " + sp.extract.replace(/\[(\d+):([^\]]+)\]/g, "($1) $2"));
+      (r.whys || []).forEach(function (w) {
+        L.push(w.n + ". " + w.word + ": the lecturer said \"" + w.said + "\". Correct label: " + w.right + ". My label: " + (w.pick || "none") + (w.pick === w.right ? " (right)" : " (wrong)"));
+        L.push("   My why-sentence (please mark): " + (w.text ? "\"" + w.text + "\"" : "(left blank)"));
+      });
+    } else {
+      L.push("== " + r.roundTitle + (r.mode === "redo" ? " (redo of misses)" : "") + " · " + fmtDate(r.at) + " · " + r.minutes + " min");
+      L.push("First try " + r.firstTry + " · after the hint " + r.afterHint + " · shown the answer " + r.taught + " · out of " + r.total);
+      var miss = (r.answers || []).filter(function (a) { return a.result !== "first"; });
+      if (miss.length) L.push("Not first try:");
+      miss.forEach(function (a) {
+        var q = QMAP[a.qid]; if (!q) return;
+        var right = q.type === "pick" ? q.opts[q.key] : tokens(q.s).filter(function (t) { return t.key; }).map(function (t) { return t.t.replace(/[.,]$/, ""); }).join(", ");
+        L.push("- " + plainS(q.s) + (q.ask && q.type === "pick" ? " (" + q.ask.replace(/<[^>]+>/g, "") + ")" : "") + " | my tries: " + a.tries.join(" / ") + " | right answer: " + right + (a.result === "hint" ? " (got it after the hint)" : ""));
+      });
+    }
+  });
+  return { text: L.join("\n"), n: runs.length };
+}
+function copyBlock() {
+  if (!COPY_MODE) return "";
+  return "<div class='q' style='gap:8px'><div class='row'><button class='primary' data-act='copy'>Copy my results</button></div>" +
+    "<p class='save' id='copyMsg'></p><textarea id='exportBox' class='exportbox' readonly hidden></textarea></div>";
+}
+
+/* ---------------- state ---------------- */
+var S;
+function fresh() { return { view: "menu", roundId: null, mode: null, order: [], idx: 0, ans: {}, startedAt: 0, saveMsg: "", spot: null, leave: false }; }
+
+function startRound(id, qids, mode) {
+  var r = RMAP[id];
+  S = fresh();
+  S.roundId = id; S.mode = mode; S.startedAt = Date.now();
+  if (r.spot) {
+    S.view = "spot";
+    S.spot = { phase: "flag", flags: [], tries: 0, hint: "", result: null, spotted: 0, fixes: {} };
+  } else {
+    S.view = "q";
+    S.order = qids || r.qs.map(function (q) { return q.id; });
+  }
+  render();
+}
+function curQ() { return QMAP[S.order[S.idx]]; }
+function ansFor(q) {
+  if (!S.ans[q.id]) S.ans[q.id] = { tries: [], result: null, order: q.type === "pick" ? shuffle(q.opts.length) : null, sel: [] };
+  return S.ans[q.id];
+}
+
+function finishRound() {
+  var r = RMAP[S.roundId], c = { first: 0, hint: 0, taught: 0 }, answers = [];
+  S.order.forEach(function (id) {
+    var a = S.ans[id], q = QMAP[id];
+    c[a.result] += 1;
+    var tries = q.type === "pick"
+      ? a.tries.map(function (i) { return q.opts[i]; })
+      : a.tries.map(function (sel) { var tk = tokens(q.s); return sel.map(function (i) { return tk[i].t; }).join(" "); });
+    answers.push({ qid: id, result: a.result, tries: tries });
+  });
+  S.view = "done";
+  saveRun({
+    at: new Date().toISOString(), round: S.roundId, roundTitle: r.title, mode: S.mode,
+    firstTry: c.first, afterHint: c.hint, taught: c.taught, total: S.order.length,
+    minutes: Math.round((Date.now() - S.startedAt) / 6000) / 10, answers: answers
+  });
+  render();
+}
+
+/* ---------------- views ---------------- */
+function viewMenu() {
+  var done = ROUNDS.filter(function (r) { return roundHist(r.id).some(function (h) { return h.mode !== "redo"; }); }).length;
+  var h = "<div class='head'><h1>A4 word drills</h1>" +
+    "<div class='chips'><span class='chip'>A4 · Fri 16 Oct</span><span class='chip'>" + done + " of " + ROUNDS.length + " rounds done</span></div>" +
+    (COPY_MODE
+      ? "<p class='note'>Pick a round. Each one starts with Dr Annandale's labels, then 8 to 10 questions. Wrong once = a hint and a second try. Finished rounds are kept in this browser. Press <b>Copy my results</b> and paste them into your Claude chat to get your why-sentences marked. The sentences are made up for this drill, set in Willo's world, and her labels win every time.</p></div>" + copyBlock()
+      : "<p class='note'>Pick a round. Each one starts with her labels, then 8 to 10 questions. Wrong once = a hint and a second try. Every finished round is saved for your tutor. The sentences are made up for this drill, set in Willo's world, and her labels win every time.</p></div>");
+  GROUPS.forEach(function (g) {
+    h += "<section class='group'><h2>" + g[1] + "</h2>";
+    ROUNDS.filter(function (r) { return r.group === g[0]; }).forEach(function (r) {
+      var hs = roundHist(r.id), last = hs[hs.length - 1], on = hs.some(function (x) { return x.mode !== "redo"; });
+      var count = r.spot ? "8 labels" : r.qs.length + " questions";
+      h += "<button class='card' data-act='open' data-round='" + r.id + "'>" +
+        "<span class='ct'>" + esc(r.title) + "</span>" +
+        "<span class='tick" + (on ? " on" : "") + "' aria-label='" + (on ? "done" : "not done yet") + "'>" + (on ? "✓" : "") + "</span>" +
+        "<span class='cb'>" + esc(r.blurb) + " · " + count + "</span>" +
+        (last ? "<span class='cr'>" + esc(resultLine(last)) + "</span>" : "") +
+        "</button>";
+    });
+    h += "</section>";
+  });
+  return h;
+}
+
+function topBar(title, n) {
+  return "<div class='bar'><span class='t'>" + esc(title) + "</span>" + (n ? "<span class='n'>" + n + "</span>" : "") +
+    "<button class='ghost" + (S.leave ? " armed" : "") + "' data-act='leave'>" + (S.leave ? "Tap again to leave" : "Menu") + "</button></div>";
+}
+
+function viewIntro() {
+  var r = RMAP[S.roundId];
+  var h = topBar(r.title, "");
+  if (r.spot) {
+    h += "<div class='q'><div class='sheet'><div><h3>How the real test works</h3>" +
+      "<p>She teaches and plants wrong labels. For every error you write three things: the error, the correct label, and one sentence of why. That is 3 marks per error.</p></div>" +
+      "<div><h3>This round</h3><p>An extract with 8 labelled words. 3 labels are wrong.</p><ul>" +
+      "<li><b>Step 1:</b> tap the 3 wrong labels.</li>" +
+      "<li><b>Step 2:</b> pick the correct label and type your why-sentence for each.</li></ul></div>" +
+      "<div class='tests'><h3>The why-sentence shape</h3><p>\"<i>my</i>\" is a <b>possessive adjective</b>, not a possessive pronoun, because it stands in front of the noun \"head\" and shows who owns it.</p>" +
+      "<p style='margin-top:6px'>Label, not the wrong label, because + her test.</p></div></div>" +
+      "<button class='primary' data-act='begin'>Start round</button></div>";
+  } else {
+    h += "<div class='q'><p class='note'>Look first. Then start when you're ready.</p><div class='sheet'>" + r.intro + "</div>" +
+      "<button class='primary' data-act='begin'>Start round</button></div>";
+  }
+  return h;
+}
+
+function viewQ() {
+  var r = RMAP[S.roundId], q = curQ(), a = ansFor(q);
+  var pct = Math.round((S.idx / S.order.length) * 100);
+  var h = topBar(r.title + (S.mode === "redo" ? " · redo" : ""), (S.idx + 1) + " / " + S.order.length) +
+    "<div class='track'><i style='width:" + pct + "%'></i></div><div class='q'>";
+
+  if (q.type === "pick") {
+    h += "<div class='sent'>" + under(q.s) + (q.voice ? "<p class='voice'>" + esc(q.voice) + "</p>" : "") + "</div>";
+    h += "<p class='ask'>" + (q.ask || "What is the underlined word?") + "</p><div class='opts'>";
+    a.order.forEach(function (i) {
+      var cls = "opt", tried = a.tries.indexOf(i) !== -1;
+      if (a.result && i === q.key) cls += " right";
+      else if (tried) cls += " tried";
+      var dis = a.result || tried ? " disabled" : "";
+      h += "<button class='" + cls + "' data-act='opt' data-i='" + i + "'" + dis + ">" + esc(q.opts[i]) + "</button>";
+    });
+    h += "</div>";
+  } else {
+    var tk = tokens(q.s), finalSel = a.result ? a.tries[a.tries.length - 1] : a.sel;
+    h += "<p class='ask'>" + q.ask + "</p><div class='words'>";
+    tk.forEach(function (t, i) {
+      var cls = "w", on = finalSel.indexOf(i) !== -1;
+      if (a.result) {
+        if (t.key && on) cls += " hit";
+        else if (t.key) cls += " miss";
+        else if (on) cls += " wrong";
+      } else if (on) cls += " sel";
+      h += "<button class='" + cls + "' data-act='tap' data-i='" + i + "'" + (a.result ? " disabled" : "") + ">" + esc(t.t) + "</button>";
+    });
+    h += "</div>";
+    if (!a.result) h += "<button class='primary' data-act='checktap'" + (a.sel.length ? "" : " disabled") + ">Check</button>";
+  }
+
+  if (!a.result && a.tries.length === 1) {
+    h += "<div class='hint'><b>" + (q.type === "tap" ? "Not quite yet." : "Not that one. Try this test:") + "</b> " + (a.hintNow || "") + q.hint + "</div>";
+  }
+  if (a.result) {
+    var v = a.result === "first" ? ["good", "Right first try."] : a.result === "hint" ? ["mid", "Right after the hint."] : ["mid", "Here's the answer, and why."];
+    h += "<p class='verdict " + v[0] + "'>" + v[1] + "</p>";
+    h += "<div class='rulebox'><b>Rule:</b> " + q.rule + "</div>";
+    if (q.why) h += "<p class='whyline'>" + esc(q.why) + "</p>";
+    h += "<button class='primary' data-act='next'>" + (S.idx + 1 < S.order.length ? "Next" : "See my round") + "</button>";
+  }
+  h += "</div>";
+  return h;
+}
+
+function viewDone() {
+  var r = RMAP[S.roundId], c = { first: 0, hint: 0, taught: 0 }, missed = [];
+  S.order.forEach(function (id) { var a = S.ans[id]; c[a.result] += 1; if (a.result !== "first") missed.push(id); });
+  var h = topBar(r.title, "") + "<div class='q'><h2>Round finished" + (S.mode === "redo" ? " (redo)" : "") + "</h2>" +
+    "<div class='tally'><div class='g'><b>" + c.first + "</b><span>first try</span></div>" +
+    "<div class='m'><b>" + c.hint + "</b><span>after the hint</span></div>" +
+    "<div class='r'><b>" + c.taught + "</b><span>taught</span></div></div>" +
+    "<p class='save'>" + esc(S.saveMsg) + "</p>";
+  if (missed.length) {
+    h += "<h3>The rules to take with you</h3><div class='review'>";
+    missed.forEach(function (id) {
+      var q = QMAP[id];
+      var s = q.type === "pick" ? under(q.s) : esc(q.s.replace(/[{}]/g, ""));
+      var ans = q.type === "pick" ? "<p><b>Answer:</b> " + esc(q.opts[q.key]) + "</p>" : "";
+      h += "<div class='it'><p class='s'>" + s + "</p>" + ans + "<p>" + q.rule + "</p></div>";
+    });
+    h += "</div><div class='row'><button class='primary' data-act='redo'>Practise the " + plural(missed.length, "one", "ones") + " I missed</button>" +
+      "<button class='ghost' data-act='home'>Back to menu</button></div>" + copyBlock();
+  } else {
+    h += "<p>All " + S.order.length + " right on the first try. The quick tests on this round's sheet are holding.</p>" +
+      "<button class='primary' data-act='home'>Back to menu</button>" + copyBlock();
+  }
+  return h + "</div>";
+}
+
+function renderExtract(sp) {
+  return sp.extract.replace(/\[(\d+):([^\]]+)\]/g, function (m, n, w) {
+    return "<sup>" + n + "</sup><u>" + w + "</u>";
+  });
+}
+function labelSelect(n, val, dis) {
+  var h = "<select id='fix-" + n + "' data-n='" + n + "'" + (dis ? " disabled" : "") + "><option value=''>Choose the correct label</option>";
+  LABEL_GROUPS.forEach(function (g) {
+    h += "<optgroup label='" + esc(g[0]) + "'>";
+    g[1].forEach(function (l) { h += "<option" + (l === val ? " selected" : "") + ">" + esc(l) + "</option>"; });
+    h += "</optgroup>";
+  });
+  return h + "</select>";
+}
+
+function viewSpot() {
+  var r = RMAP[S.roundId], sp = r.spot, st = S.spot;
+  var errs = sp.items.filter(function (it) { return it.wrong; });
+  var h = topBar(r.title, st.phase === "flag" ? "Step 1 of 2" : st.phase === "fix" ? "Step 2 of 2" : "Marked") + "<div class='q'>";
+  h += "<div class='extract'>" + renderExtract(sp) + "</div>";
+
+  if (st.phase === "flag") {
+    h += "<p class='ask'>The lecturer's labels. Tap the 3 you think are wrong.</p><div class='lab'>";
+    sp.items.forEach(function (it) {
+      var on = st.flags.indexOf(it.n) !== -1;
+      h += "<button class='lrow" + (on ? " flag" : "") + "' data-act='flag' data-n='" + it.n + "'><span class='num'>" + it.n + "</span>" +
+        "<span><span class='wd'>" + esc(it.word) + "</span> = " + esc(it.says) + (on ? "<small>flagged as wrong</small>" : "") + "</span></button>";
+    });
+    h += "</div>";
+    if (st.hint) h += "<div class='hint'><b>Not quite yet.</b> " + st.hint + "</div>";
+    h += "<button class='primary' data-act='checkflags'" + (st.flags.length ? "" : " disabled") + ">Check my flags</button>";
+  } else {
+    var v = st.result === "first" ? ["good", "All 3 errors spotted, first try."] : st.result === "hint" ? ["mid", "All 3 errors spotted after the hint."] : ["mid", "You spotted " + st.spotted + " of 3. Here are all three."];
+    h += "<p class='verdict " + v[0] + "'>" + v[1] + "</p><div class='lab'>";
+    sp.items.forEach(function (it) {
+      var flagged = st.finalFlags.indexOf(it.n) !== -1, cls = "lrow " + (it.wrong ? "err" : "ok");
+      var note = it.wrong ? (flagged ? "an error, and you spotted it" : "an error you missed") : (flagged ? "this one was right: her label stands" : "");
+      h += "<button class='" + cls + "' disabled><span class='num'>" + it.n + "</span><span><span class='wd'>" + esc(it.word) + "</span> = " + esc(it.says) +
+        (note ? "<small>" + note + "</small>" : "") + "</span></button>";
+    });
+    h += "</div>";
+    errs.forEach(function (it) {
+      var f = st.fixes[it.n] || { pick: "", text: "" };
+      h += "<div class='fix'><p><b>" + it.n + ". " + esc(it.word) + "</b>: she said <i>" + esc(it.says) + "</i>.</p>";
+      if (st.phase === "fix") {
+        h += "<label for='fix-" + it.n + "'>Correct label</label>" + labelSelect(it.n, f.pick, false) +
+          "<label for='why-" + it.n + "'>Your why-sentence</label>" +
+          "<textarea id='why-" + it.n + "' data-n='" + it.n + "' placeholder='\"" + esc(it.word.replace(/'s \(He's\)/, "is")) + "\" is a ___, not a ___, because ...'>" + esc(f.text) + "</textarea>";
+      } else {
+        var ok = f.pick === it.fix;
+        h += "<p class='verdict " + (ok ? "good" : "bad") + "'>" + (ok ? "Correct label: " : "Your label: " + esc(f.pick || "none") + ". Correct label: ") + esc(it.fix) + "</p>";
+        h += "<p><b>Your why:</b> <span class='mine'>" + (f.text ? esc(f.text) : "(left blank)") + "</span></p>";
+        h += "<div class='rulebox'><b>One way to say it:</b> " + esc(it.model) + "</div>";
+      }
+      h += "</div>";
+    });
+    if (st.phase === "fix") {
+      var ready = errs.every(function (it) { return st.fixes[it.n] && st.fixes[it.n].pick; });
+      h += "<button class='primary' data-act='checkfixes'" + (ready ? "" : " disabled") + ">Check my corrections</button>";
+      if (!ready) h += "<p class='note'>Pick a label for all three to check. The why-sentences go to your tutor to mark.</p>";
+    } else {
+      h += "<p class='save'>" + esc(S.saveMsg) + "</p><p class='note'>" + (COPY_MODE
+        ? "Copy your results and paste them into your Claude chat to get your three why-sentences marked (1 mark each)."
+        : "Your three why-sentences are saved for your tutor to mark (1 mark each).") + "</p>" +
+        "<button class='primary' data-act='home'>Back to menu</button>" + copyBlock();
+    }
+  }
+  return h + "</div>";
+}
+
+/* ---------------- render + events ---------------- */
+var app = document.getElementById("app");
+function render() {
+  var h;
+  if (S.view === "menu") h = viewMenu();
+  else if (S.view === "intro") h = viewIntro();
+  else if (S.view === "q") h = viewQ();
+  else if (S.view === "done") h = viewDone();
+  else h = viewSpot();
+  app.innerHTML = h;
+}
+function goTop() { try { window.scrollTo(0, 0); } catch (e) {} }
+
+var leaveTimer = null;
+app.addEventListener("click", function (ev) {
+  var b = ev.target.closest("[data-act]");
+  if (!b || b.disabled) return;
+  var act = b.getAttribute("data-act");
+
+  if (act === "open") { S = fresh(); S.view = "intro"; S.roundId = b.getAttribute("data-round"); render(); goTop(); return; }
+  if (act === "begin") { startRound(S.roundId, null, RMAP[S.roundId].spot ? "spot" : "round"); goTop(); return; }
+  if (act === "home") { S = fresh(); render(); goTop(); return; }
+  if (act === "copy") {
+    var ex = exportText(), box = document.getElementById("exportBox"), msg = document.getElementById("copyMsg");
+    if (!ex.n) { msg.textContent = "No finished rounds yet. Finish a round first, then copy."; return; }
+    var fallback = function () {
+      box.hidden = false; box.value = ex.text; box.focus(); box.select();
+      msg.textContent = "Couldn't copy by itself. The text below is selected: press Ctrl+C, or long-press and tap Copy.";
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(ex.text).then(function () {
+        msg.textContent = "Copied " + plural(ex.n, "round", "rounds") + ". Paste it into your Claude chat.";
+      }, fallback);
+    } else fallback();
+    return;
+  }
+  if (act === "leave") {
+    if (S.view === "intro" || S.view === "done" || (S.view === "spot" && S.spot && S.spot.phase === "done")) { S = fresh(); render(); goTop(); return; }
+    if (S.leave) { clearTimeout(leaveTimer); S = fresh(); render(); goTop(); return; }
+    S.leave = true; render();
+    leaveTimer = setTimeout(function () { S.leave = false; render(); }, 3000);
+    return;
+  }
+
+  if (act === "opt") {
+    var q = curQ(), a = ansFor(q), i = +b.getAttribute("data-i");
+    if (a.result || a.tries.indexOf(i) !== -1) return;
+    a.tries.push(i);
+    if (i === q.key) a.result = a.tries.length === 1 ? "first" : "hint";
+    else if (a.tries.length >= 2) a.result = "taught";
+    render(); return;
+  }
+  if (act === "tap") {
+    var q2 = curQ(), a2 = ansFor(q2), k = +b.getAttribute("data-i"), p = a2.sel.indexOf(k);
+    if (a2.result) return;
+    if (p === -1) a2.sel.push(k); else a2.sel.splice(p, 1);
+    render(); return;
+  }
+  if (act === "checktap") {
+    var q3 = curQ(), a3 = ansFor(q3), tk = tokens(q3.s);
+    var keys = tk.map(function (t, i) { return t.key ? i : -1; }).filter(function (i) { return i !== -1; });
+    var sel = a3.sel.slice().sort(function (x, y) { return x - y; });
+    a3.tries.push(sel);
+    var hits = sel.filter(function (i) { return tk[i].key; }).length, extra = sel.length - hits;
+    if (hits === keys.length && extra === 0) a3.result = a3.tries.length === 1 ? "first" : "hint";
+    else if (a3.tries.length >= 2) a3.result = "taught";
+    else {
+      a3.hintNow = "You found " + hits + " of " + keys.length + (extra ? ", and " + plural(extra, "tap is", "taps are") + " not a preposition" : "") + ". ";
+    }
+    render(); return;
+  }
+  if (act === "next") {
+    if (S.idx + 1 < S.order.length) { S.idx += 1; render(); goTop(); }
+    else { finishRound(); goTop(); }
+    return;
+  }
+  if (act === "redo") {
+    var missed = S.order.filter(function (id) { return S.ans[id].result !== "first"; });
+    var rid = S.roundId;
+    startRound(rid, missed, "redo"); goTop(); return;
+  }
+
+  if (act === "flag") {
+    var st = S.spot, n = +b.getAttribute("data-n"), at = st.flags.indexOf(n);
+    if (at === -1) st.flags.push(n); else st.flags.splice(at, 1);
+    render(); return;
+  }
+  if (act === "checkflags") {
+    var st2 = S.spot, items = RMAP[S.roundId].spot.items;
+    var wrongNs = items.filter(function (it) { return it.wrong; }).map(function (it) { return it.n; });
+    var tp = st2.flags.filter(function (n) { return wrongNs.indexOf(n) !== -1; }).length, fp = st2.flags.length - tp;
+    st2.tries += 1;
+    if (tp === 3 && fp === 0) { st2.result = st2.tries === 1 ? "first" : "hint"; }
+    else if (st2.tries >= 2) { st2.result = "taught"; }
+    else {
+      st2.hint = "You flagged " + st2.flags.length + ". " + (tp === 1 ? "1 of them is a real error" : tp + " of them are real errors") +
+        (fp ? ", " + plural(fp, "flag is on a label that is actually right", "flags are on labels that are actually right") : "") +
+        (3 - tp ? ", and " + plural(3 - tp, "error is", "errors are") + " still hiding" : "") + ". Run your quick tests on every label again: noun right after it? swap in \"it\"? swap in am / is / are? FANBOYS? something after it?";
+      render(); return;
+    }
+    st2.spotted = tp; st2.falseFlags = fp; st2.finalFlags = st2.flags.slice(); st2.phase = "fix";
+    render(); goTop(); return;
+  }
+  if (act === "checkfixes") {
+    var st3 = S.spot, r = RMAP[S.roundId];
+    var errs = r.spot.items.filter(function (it) { return it.wrong; });
+    var corrected = errs.filter(function (it) { return st3.fixes[it.n] && st3.fixes[it.n].pick === it.fix; }).length;
+    st3.phase = "done";
+    saveRun({
+      at: new Date().toISOString(), round: S.roundId, roundTitle: r.title, mode: "spot",
+      spotted: st3.spotted, spotResult: st3.result, falseFlags: st3.falseFlags, flagsFirstTry: st3.tries,
+      corrected: corrected, total: 9,
+      minutes: Math.round((Date.now() - S.startedAt) / 6000) / 10,
+      whys: errs.map(function (it) {
+        var f = st3.fixes[it.n] || {};
+        return { n: it.n, word: it.word, said: it.says, right: it.fix, pick: f.pick || "", text: f.text || "" };
+      })
+    });
+    render(); goTop(); return;
+  }
+});
+
+/* fields in step 2: keep what she types without re-rendering (so the cursor stays put) */
+app.addEventListener("change", function (ev) {
+  var el = ev.target;
+  if (el.tagName === "SELECT" && S.spot) {
+    var n = el.getAttribute("data-n");
+    S.spot.fixes[n] = S.spot.fixes[n] || { pick: "", text: "" };
+    S.spot.fixes[n].pick = el.value;
+    var focusId = el.id; render();
+    var again = document.getElementById(focusId); if (again) again.focus();
+  }
+});
+app.addEventListener("input", function (ev) {
+  var el = ev.target;
+  if (el.tagName === "TEXTAREA" && S.spot) {
+    var n = el.getAttribute("data-n");
+    S.spot.fixes[n] = S.spot.fixes[n] || { pick: "", text: "" };
+    S.spot.fixes[n].text = el.value;
+  }
+});
+
+/* ---------------- boot (keeps her place if the page is updated while open) ---------------- */
+var hot = window.claude && window.claude.hot;
+if (hot && hot.snapshot) hot.snapshot(function () { return { S: S }; });
+function start(data) {
+  S = (data && data.S && data.S.view) ? data.S : fresh();
+  S.leave = false;
+  render();
+  loadHistory();
+}
+if (hot && hot.ready) hot.ready(start); else start((hot && hot.data) || {});
+})();
+</script>
+</body>
+</html>
