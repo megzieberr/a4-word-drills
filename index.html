@@ -7,7 +7,7 @@
 <title>ENGV A4 Word Drills</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Literata:opsz,wght@7..72,400;7..72,600&family=Noto+Sans:wght@400;700&display=swap">
 <style>
 /* Layout: one narrow study column, one question per screen; menu = three groups of round cards.
    Look: snow-light page, slate ink, cold-blue accent; amber is kept for the rule box only. */
@@ -129,6 +129,13 @@ button:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3p
 .verdict.bad { color: var(--bad); }
 .rulebox { background: var(--rule-soft); border-left: 4px solid var(--rule-line); border-radius: 8px; padding: 12px 14px; }
 .rulebox b:first-child { color: var(--rule); }
+/* phonetics: IPA glyphs need a font that has them (Noto Sans covers ɪ ə ː ˈ ʒ ʃ on phones too) */
+.ipa { font-family: "Noto Sans", "Charis SIL", "Doulos SIL", "Segoe UI", sans-serif; }
+.ipaline { font-size: 1.35rem; letter-spacing: 0.02em; margin-top: 6px; }
+.gap { display: inline-block; min-width: 1.6em; text-align: center; border-bottom: 3px solid var(--accent); color: var(--accent); font-weight: 700; }
+.gap.filled { border-bottom-color: var(--good); color: var(--good); }
+.opts.sym { grid-template-columns: repeat(3, 1fr); }
+.opt.sym { text-align: center; font-size: 1.6rem; padding: 10px 6px; }
 .whyline { font-family: var(--font-book); font-size: 1rem; color: var(--ink); padding-left: 14px; border-left: 3px solid var(--line); }
 .primary {
   background: var(--accent); color: var(--on-accent); border: 0; border-radius: 10px;
@@ -145,6 +152,10 @@ button:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3p
 .w.miss { border-color: var(--good); border-style: dashed; color: var(--good); }
 .w.wrong { border-color: var(--bad); background: var(--bad-soft); color: var(--bad); text-decoration: line-through; }
 .w:disabled { cursor: default; }
+/* p3: one word split into syllables, one tap each, still reads as one word */
+.words.syl { gap: 0; justify-content: center; align-items: center; font-size: 1.35rem; }
+.words.syl .w { padding: 6px 7px; }
+.words.syl .dot { color: var(--muted); padding: 0 1px; }
 
 /* results */
 .tally { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
@@ -182,6 +193,17 @@ button:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3p
 }
 .fix textarea { min-height: 92px; resize: vertical; font-family: var(--font-book); }
 .mine { font-family: var(--font-book); color: var(--muted); }
+/* listen rounds: the player, the "label you heard" boxes, the said/heard memo */
+.listen { width: 100%; max-width: 100%; display: block; }
+.hrow { display: grid; grid-template-columns: 2rem 1fr; gap: 4px 8px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.hrow .num { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.hrow .wd { font-family: var(--font-book); font-weight: 600; }
+.hrow input { grid-column: 2; width: 100%; min-width: 0; font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+.hrow input::placeholder { color: var(--muted); }
+.saidheard { display: grid; gap: 6px; }
+.saidheard p { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; }
+.saidheard p.diff { background: var(--rule-soft); border-color: var(--rule-line); }
+.saidheard small { display: block; color: var(--muted); font-size: 0.85rem; }
 .exportbox { width: 100%; min-height: 160px; font: 0.85rem/1.4 ui-monospace, Consolas, monospace; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px; }
 @media (prefers-reduced-motion: no-preference) {
   .opt, .w, .lrow, .card { transition: border-color .15s, background-color .15s; }
@@ -261,7 +283,7 @@ var ROUNDS = [
     { id: "r1q4", type: "pick", s: "Willo keeps looking [east], where the sun comes up.",
       opts: ["adverb of place", "abstract noun", "common noun", "preposition"], key: 1,
       hint: "Think of her Activity 1c memo (everyone looking west). Can you see or touch \"east\"?",
-      rule: "Her label: <i>west</i> and <i>east</i> = abstract noun. A grammar book may say adverb, but she marks the test, so her label wins.",
+      rule: "Her label: <i>west</i> and <i>east</i> = abstract noun. A grammar book may say adverb, but she marks the test, so her label wins. Her email, 6 Oct: she would consider accepting adverb of place too (swap in <i>there</i>), but abstract noun stays the safe answer.",
       why: "\"east\" is an abstract noun because it is a direction you cannot see or touch." },
     { id: "r1q5", type: "pick", s: "[Everyone] at the Barmuth Meet stares at Willo.",
       opts: ["collective noun", "personal pronoun", "indefinite pronoun", "proper noun"], key: 2,
@@ -454,7 +476,7 @@ var ROUNDS = [
   intro:
     "<div><h3>Not quite verbs</h3><ul>" +
     "<li><b>present participle</b>: -ing with a helper (she is <i>seeing</i>), or an opener like \"<i>Looking</i> up, he...\"</li>" +
-    "<li><b>past participle</b>: \"had\" fits in front (had <i>eaten</i>, had <i>broken</i>)</li>" +
+    "<li><b>past participle</b>: a helper sits in front (had <i>eaten</i>, was <i>broken</i>). In front of a noun with no helper (a <i>broken</i> sledge) it is a descriptive adjective (her email, 6 Oct)</li>" +
     "<li><b>gerund (noun)</b>: -ing doing a noun's job (thinks of <i>putting</i>)</li>" +
     "<li><b>gerund (adjective)</b>: her label for an -ing word in front of a noun (the <i>understanding</i> man)</li>" +
     "</ul></div>" +
@@ -462,7 +484,7 @@ var ROUNDS = [
     "<li><b>Swap in \"it\".</b> Still works = gerund (noun). Breaks = participle.</li>" +
     "<li><b>Straight after a preposition</b> (of, about, at) = gerund (noun).</li>" +
     "<li><b>-ing in front of a noun</b> = gerund (adjective). A grammar book says participle; her label wins.</li>" +
-    "<li><b>-ed / -en word:</b> put \"had\" in front. Works = past participle. No helper and it is the main action = finite.</li>" +
+    "<li><b>-ed / -en word:</b> helper in front (had, was) = past participle. No helper and it is the main action = finite verb. No helper and it sits in front of a noun = descriptive adjective (her email, 6 Oct).</li>" +
     "</ul></div>",
   qs: [
     { id: "r4q1", type: "pick", s: "[Hunting] keeps the family alive in winter.",
@@ -491,10 +513,10 @@ var ROUNDS = [
       rule: "Her Activity 2b memo: \"<i>Looking</i> up, he...\" = present participle. The \"it\" swap breaks, so it is not a gerund.",
       why: "\"Looking\" is a present participle, not a gerund (noun), because swapping in \"it\" breaks the sentence; it describes what Willo is doing." },
     { id: "r4q6", type: "pick", s: "Willo finds a [broken] sledge in the snow.",
-      opts: ["gerund (adjective)", "finite verb", "past participle", "descriptive adjective"], key: 2,
-      hint: "Put \"had\" in front: \"had broken\". Does that work? Is it an -ing word?",
-      rule: "\"had\" fits in front = past participle, even when it stands before a noun (the EP: <i>broken</i> hearts). Only -ing words in front of a noun get \"gerund (adjective)\".",
-      why: "\"broken\" is a past participle because \"had broken\" works and it is not an -ing word." },
+      opts: ["gerund (adjective)", "finite verb", "past participle", "descriptive adjective"], key: 3,
+      hint: "Does \"broken\" describe the sledge, or is it part of the verb with had / was in front?",
+      rule: "An -ed / -en word in front of a noun describes it = descriptive adjective (her email, 6 Oct: <i>broken</i> hearts is a descriptive adjective; the EP memo's \"past participle\" was wrong). Past participle only when it sits with a helper: had <i>broken</i>.",
+      why: "\"broken\" is a descriptive adjective because it describes the noun \"sledge\" and has no helper in front of it." },
     { id: "r4q7", type: "pick", s: "Dad had [eaten] nothing for days.",
       opts: ["finite verb", "present participle", "past participle", "infinitive"], key: 2,
       hint: "What helper sits in front of it?",
@@ -604,7 +626,7 @@ var ROUNDS = [
     "<p>in · on · of · with · at · by · to · from · for · about · over · under · near · during · towards · across · beside · above</p></div>" +
     "<div><h3>Conjunctions</h3><ul>" +
     "<li><b>coordinating</b> = FANBOYS: for, and, nor, but, or, yet, so</li>" +
-    "<li><b>subordinating</b> = every other one: if, when, because, although. Her slide also puts <i>however, which, like</i> here.</li>" +
+    "<li><b>subordinating</b> = every other one: if, when, because, although. <i>That / which</i> linking two finite verbs counts too (relative pronoun also accepted). <i>However</i> and <i>nonetheless</i> are NOT conjunctions (her email, 6 Oct) and will not be asked.</li>" +
     "</ul></div>" +
     "<div><h3>Articles</h3><ul>" +
     "<li><b>definite</b>: the · <b>indefinite</b>: a, an</li>" +
@@ -642,11 +664,11 @@ var ROUNDS = [
       hint: "Is \"if\" one of FANBOYS?",
       rule: "Not FANBOYS = subordinating conjunction (if, when, because, although).",
       why: "\"If\" is a subordinating conjunction because it is not one of FANBOYS and it joins a clause that depends on the main one." },
-    { id: "r6q7", type: "pick", s: "The food is gone. [However], Willo still has the rabbit skins.",
+    { id: "r6q7", type: "pick", s: "[Although] the food is gone, Willo still has the rabbit skins.",
       opts: ["coordinating conjunction", "subordinating conjunction", "adverb of manner", "preposition"], key: 1,
-      hint: "Is \"however\" one of FANBOYS? Where does her conjunctions slide put it?",
-      rule: "Her slide puts <i>however</i> (and <i>nonetheless, which</i>) under subordinating conjunction. A grammar book calls it a conjunctive adverb, but she marks the test.",
-      why: "\"However\" is a subordinating conjunction because it is not one of FANBOYS (her slide files it under subordinating)." },
+      hint: "Is \"although\" one of FANBOYS? Does it join a clause that depends on the main one?",
+      rule: "Not FANBOYS, and it joins a dependent clause to the main one = subordinating conjunction. Her email, 6 Oct: <i>however</i> and <i>nonetheless</i> are NOT conjunctions and will not be asked.",
+      why: "\"Although\" is a subordinating conjunction because it is not one of FANBOYS and it joins the clause \"the food is gone\" to the main clause." },
     { id: "r6q8", type: "pick", s: "Willo needs [an] axe.",
       opts: ["definite article", "adjective of quantity", "indefinite article", "preposition"], key: 2,
       hint: "Does it point to one particular axe, or to any axe?",
@@ -812,6 +834,137 @@ var ROUNDS = [
       rule: "'s on a noun with a noun after it = possessive, one of the 8. Compare He's = He <i>is</i>: there the 's is a hidden verb." }
   ]
 },
+/* ---------------- phonetics (PHONETICS-ROUNDS-PLAN.md) ----------------
+   pick with sym: true = IPA symbol buttons; ipa = the transcription, "_" = the gap; fill = what the gap shows once answered.
+   Every key looked up on the Cambridge Dictionary UK written line (2 Oct 2026), written in her one-pager's symbols:
+   no syllable dots, no secondary-stress mark, ɪ for a final y, no r unless a vowel follows. */
+{
+  id: "p1", group: "phon", title: "The short i has two faces",
+  blurb: "ship, sheep or the shrug: ɪ, iː or ə",
+  intro:
+    "<div><h3>Three sounds that look alike</h3><ul>" +
+    "<li><b class='ipa'>ɪ</b> short, no dots: sh<u>i</u>p, p<u>i</u>n, sh<u>i</u>n</li>" +
+    "<li><b class='ipa'>iː</b> long, two dots: sh<u>ee</u>p, shr<u>ie</u>k, scr<u>ea</u>m</li>" +
+    "<li><b class='ipa'>ə</b> the shrug, only off the beat: the <u>a</u> in <u>a</u>go</li>" +
+    "</ul></div>" +
+    "<div class='tests'><h3>Quick tests</h3><ul>" +
+    "<li>Rhyme a REAL word: ship or sheep? If you can rhyme it, it is a real vowel. Only a pure \"uh\" (the a in ago) is <span class='ipa'>ə</span>.</li>" +
+    "<li>Your <span class='ipa'>ɪ</span> words are <b>ship and pin</b>. Never hip, him or kit: your mouth says those closer to \"heep\".</li>" +
+    "<li>The letter does not decide. An e, an o or an a can all be said like ship.</li>" +
+    "<li>No <span class='ipa'>ə</span> under the beat mark ( <b class='ipa'>ˈ</b> ), ever.</li>" +
+    "</ul></div>",
+  qs: [
+    { id: "p1q1", type: "pick", sym: true, s: "pr[e]tty", ipa: "/ˈpr_tɪ/", // Cambridge UK: ˈprɪt.i
+      opts: ["ɪ", "iː", "ə"], key: 0,
+      hint: "Say pre- out loud. Is that vowel the one in ship, or the one in sheep? Forget the letter e.",
+      rule: "pretty = <span class='ipa'>/ˈprɪtɪ/</span>. The e is said like ship: short, no dots. The letter never decides the symbol. (Cambridge prints the last y as i; your chart has no plain i, so write <span class='ipa'>ɪ</span>.)" },
+    { id: "p1q2", type: "pick", sym: true, s: "mach[i]ne", ipa: "/məˈʃ_n/", // Cambridge UK: məˈʃiːn
+      opts: ["ɪ", "iː", "ə"], key: 1,
+      hint: "Say -chine. Does it rhyme with sheen and green, or with shin?",
+      rule: "machine = <span class='ipa'>/məˈʃiːn/</span>. -chine rhymes with sheen: long, so two dots. The beat sits here; the weak ma- before it is the shrug." },
+    { id: "p1q3", type: "pick", sym: true, s: "par[a]digm", ipa: "/ˈpær_daɪm/", // Cambridge UK: ˈpær.ə.daɪm
+      opts: ["ɪ", "iː", "ə"], key: 2,
+      hint: "Say it slowly: PA-ra-dime. Can you rhyme the middle -ra- with a real word, or is it only a quick uh, like the a in ago?",
+      rule: "paradigm = <span class='ipa'>/ˈpærədaɪm/</span>. The middle a is a thrown-away uh between two strong syllables: <span class='ipa'>ə</span>." },
+    { id: "p1q4", type: "pick", sym: true, s: "d[e]cision", ipa: "/d_ˈsɪʒən/", // Cambridge UK: dɪˈsɪʒ.(ə)n
+      opts: ["ɪ", "iː", "ə"], key: 0,
+      hint: "The beat is on -ci-, so de- is weak. Think of decide and describe: is de- a plain uh, or a quick ship sound?",
+      rule: "decision = <span class='ipa'>/dɪˈsɪʒən/</span>. A weak de-, be-, re- or pre- at the start of a word is usually written <span class='ipa'>ɪ</span> in Cambridge, not <span class='ipa'>ə</span> (decide, believe, return, prepare). Not sure in the test? <span class='ipa'>ɪ</span> is the safer pick for these starts." },
+    { id: "p1q5", type: "pick", sym: true, s: "vis[i]tor", ipa: "/ˈvɪz_tə/", // Cambridge UK: ˈvɪz.ɪ.tə(r)
+      opts: ["ɪ", "iː", "ə"], key: 0,
+      hint: "Say visit first. Does its -it rhyme with sit and pin?",
+      rule: "visitor = <span class='ipa'>/ˈvɪzɪtə/</span>. Build it from visit <span class='ipa'>/ˈvɪzɪt/</span>: the i keeps its ship sound, and -or adds the shrug. No r at the end: no vowel follows it." },
+    { id: "p1q6", type: "pick", sym: true, s: "bel[ie]ve", ipa: "/bɪˈl_v/", // Cambridge UK: bɪˈliːv
+      opts: ["ɪ", "iː", "ə"], key: 1,
+      hint: "Does -lieve rhyme with leave and sheep, or with live (as in \"I live here\")?",
+      rule: "believe = <span class='ipa'>/bɪˈliːv/</span>. -lieve rhymes with leave: long, two dots. The weak be- before the beat is <span class='ipa'>ɪ</span>, like de- in decision." },
+    { id: "p1q7", type: "pick", sym: true, s: "w[o]men", ipa: "/ˈw_mɪn/", // Cambridge UK: ˈwɪm.ɪn
+      opts: ["ɪ", "iː", "ə"], key: 0,
+      hint: "Forget the o. Does wom- rhyme with swim? And look where the beat mark sits.",
+      rule: "women = <span class='ipa'>/ˈwɪmɪn/</span>. The o is said like ship (wom- rhymes with swim). It carries the beat, so it can never be <span class='ipa'>ə</span>. If it sounds like a shrug to you, copy Cambridge's written line." },
+    { id: "p1q8", type: "pick", sym: true, s: "vill[a]ge", ipa: "/ˈvɪl_dʒ/", // Cambridge UK: ˈvɪl.ɪdʒ
+      opts: ["ɪ", "iː", "ə"], key: 0,
+      hint: "Page or bridge? Does -age here end like page, or like bridge?",
+      rule: "village = <span class='ipa'>/ˈvɪlɪdʒ/</span>. -age at the end of a longer word sounds like the end of bridge: <span class='ipa'>ɪdʒ</span> (village, cottage, percentage)." },
+    { id: "p1q9", type: "pick", sym: true, s: "educat[io]n", ipa: "/edʒʊˈkeɪʃ_n/", // Cambridge UK: ˌedʒ.ʊˈkeɪ.ʃ(ə)n
+      opts: ["ɪ", "iː", "ə"], key: 2,
+      hint: "Say nation, station, education. After the sh, is there a vowel you can rhyme, or only a quick uh?",
+      rule: "education = <span class='ipa'>/edʒʊˈkeɪʃən/</span>. -tion is always <span class='ipa'>/ʃən/</span>: a quick uh after the sh (nation, station)." },
+    { id: "p1q10", type: "pick", s: "r[i]ver", ipa: "/ˈr_və/", fill: "ɪ", // Cambridge UK: ˈrɪv.ə(r)
+      ask: "The answer is <span class='ipa'>ɪ</span>. Pick the explanation that would earn the mark.",
+      opts: [
+        "ɪ, because riv- rhymes with ship and pin: short, so no dots.",
+        "ɪ, because the letter i is always written ɪ.",
+        "iː, because riv- carries the beat, and a vowel under the beat is always long."], key: 0,
+      hint: "Think back to machine and believe in this round. Does the letter decide? Does the beat make a vowel long?",
+      rule: "Rhyme a real word, never trust the letter: the i in machine is <span class='ipa'>iː</span>, the e in pretty is <span class='ipa'>ɪ</span>. And long is not loud: the beat can sit on a short vowel. Your <span class='ipa'>ɪ</span> anchors are <b>ship and pin</b>, never hip (your mouth says hip close to \"heep\", which is how river slipped in A3)." }
+  ]
+},
+/* p3: tap the stressed syllable. Keys from Cambridge UK (curl + grep on the uk dpron-i block, 3 Oct).
+   Rules use her one-pager's symbols: no syllable dots, no secondary-stress mark, ɪ for a final y, no final r.
+   tap with a middle-dot word (no spaces) = one tap per syllable, one pick only (syl: true). */
+{
+  id: "p3", group: "phon", title: "Where is the beat?",
+  blurb: "Tap the beat. Long is not loud.",
+  intro:
+    "<div><h3>What the beat is</h3><ul>" +
+    "<li>The beat mark ( <b class='ipa'>ˈ</b> ) sits on ONE syllable: the one said <b>louder and higher</b>.</li>" +
+    "<li><b>Long is not loud.</b> A long vowel can sit off the beat: the af in afternoon is long, but the beat is on noon.</li>" +
+    "<li>The beat seat gets a full vowel. Every other seat tends to go weak: <span class='ipa'>ə</span>, or a quick <span class='ipa'>ɪ</span>.</li>" +
+    "</ul></div>" +
+    "<div class='tests'><h3>Quick tests</h3><ul>" +
+    "<li>Say the word with the beat on each syllable in turn. Only one sounds like the real word.</li>" +
+    "<li>Do not copy the beat from a related word: PHO-to-graph, but pho-TOG-ra-pher.</li>" +
+    "<li>Some long words have a smaller beat too. Mark only THE beat, the biggest one.</li>" +
+    "<li>No <span class='ipa'>ə</span> under the beat mark, ever.</li>" +
+    "</ul></div>",
+  qs: [
+    { id: "p3q1", type: "tap", syl: true, s: "com·{mit}·tee", // Cambridge UK: kəˈmɪt.i
+      ask: "Tap the syllable that carries the beat, then press Check.",
+      hint: "Say it with the beat on each syllable in turn. Which one sounds like the real word? Listen for loud and high, not just long. The ee at the end looks long, but the spelling does not decide.",
+      rule: "com-MIT-tee: <span class='ipa'>/kəˈmɪtɪ/</span>. MIT has the full vowel <span class='ipa'>ɪ</span> (like ship); com and tee go weak. (Cambridge prints the last sound as i; your chart writes <span class='ipa'>ɪ</span>.)" },
+    { id: "p3q2", type: "tap", syl: true, s: "com·{pu}·ter", // Cambridge UK: kəmˈpjuː.tə(r)
+      ask: "Tap the syllable that carries the beat, then press Check.",
+      hint: "Say it with the beat on each syllable in turn. Which one sounds like the real word? Listen for loud and high, not just long.",
+      rule: "com-PU-ter: <span class='ipa'>/kəmˈpjuːtə/</span>. PU has the full long vowel <span class='ipa'>uː</span> (with its j: <span class='ipa'>pjuː</span>); com and ter go weak to <span class='ipa'>ə</span>. No r at the end: no vowel follows it." },
+    { id: "p3q3", type: "tap", syl: true, s: "ad·{van}·tage", // Cambridge UK: ədˈvɑːn.tɪdʒ
+      ask: "Tap the syllable that carries the beat, then press Check.",
+      hint: "Say it with the beat on each syllable in turn. Which one sounds like the real word? Listen for loud and high, not just long.",
+      rule: "ad-VAN-tage: <span class='ipa'>/ədˈvɑːntɪdʒ/</span>. VAN has the full long vowel <span class='ipa'>ɑː</span>; ad goes weak to <span class='ipa'>ə</span>, and -tage is a quick <span class='ipa'>ɪdʒ</span>, like the end of village." },
+    { id: "p3q4", type: "tap", syl: true, s: "{cat}·e·go·ry", // Cambridge UK: ˈkæt.ə.ɡri
+      ask: "Tap the syllable that carries the beat, then press Check.",
+      hint: "Say it with the beat on each syllable in turn. Which one sounds like the real word? Listen for loud and high, not just long.",
+      rule: "CAT-e-go-ry: <span class='ipa'>/ˈkætəɡrɪ/</span>. CAT has the full vowel <span class='ipa'>æ</span>; e goes weak to <span class='ipa'>ə</span>. Cambridge UK squeezes -gory into one quick <span class='ipa'>ɡrɪ</span>: four written syllables, three said. Final y = <span class='ipa'>ɪ</span>." },
+    { id: "p3q5", type: "tap", syl: true, s: "pho·{tog}·ra·pher", // Cambridge UK: fəˈtɒɡ.rə.fə(r)
+      ask: "Tap the syllable that carries the beat, then press Check.",
+      hint: "Do not borrow the beat from photograph. Say it with the beat on each syllable in turn. Which one sounds like the real word? Listen for loud and high, not just long.",
+      rule: "pho-TOG-ra-pher: <span class='ipa'>/fəˈtɒɡrəfə/</span>. TOG has the full vowel <span class='ipa'>ɒ</span>; pho, ra and pher all go weak to <span class='ipa'>ə</span>. The beat moves: PHO-to-graph <span class='ipa'>/ˈfəʊtəɡrɑːf/</span>, but pho-TOG-ra-pher. Never copy the beat from a related word. No r at the end." }, // Cambridge UK photograph: ˈfəʊ.tə.ɡrɑːf
+    { id: "p3q6", type: "tap", syl: true, s: "de·{mon}·stra·tive", // Cambridge UK: dɪˈmɒn.strə.tɪv
+      ask: "Tap the syllable that carries the beat, then press Check.",
+      hint: "Do not borrow the beat from demonstrate. Say it with the beat on each syllable in turn. Which one sounds like the real word? Listen for loud and high, not just long.",
+      rule: "de-MON-stra-tive: <span class='ipa'>/dɪˈmɒnstrətɪv/</span>. MON has the full vowel <span class='ipa'>ɒ</span>; stra goes weak to <span class='ipa'>ə</span>, and de and tive are a quick <span class='ipa'>ɪ</span>. The beat moves: DEM-on-strate <span class='ipa'>/ˈdemənstreɪt/</span>, but de-MON-stra-tive." }, // Cambridge UK demonstrate: ˈdem.ən.streɪt
+    { id: "p3q7", type: "tap", syl: true, s: "in·ter·{rog}·a·tive", // Cambridge UK: ˌɪn.təˈrɒɡ.ə.tɪv
+      ask: "Tap the syllable that carries the beat, then press Check.",
+      hint: "Do not borrow the beat from interrogate. Say it with the beat on each syllable in turn. Which one sounds like the real word? Listen for loud and high, not just long. One syllable has a smaller beat: find the biggest one.",
+      rule: "in-ter-ROG-a-tive: <span class='ipa'>/ɪntəˈrɒɡətɪv/</span>. ROG has the full vowel <span class='ipa'>ɒ</span>; ter and a go weak to <span class='ipa'>ə</span>. in has a smaller beat, not THE beat, so it gets no mark. The beat moves: in-TER-ro-gate <span class='ipa'>/ɪnˈterəɡeɪt/</span>, but in-ter-ROG-a-tive." }, // Cambridge UK interrogate: ɪnˈter.ə.ɡeɪt
+    { id: "p3q8", type: "tap", syl: true, s: "guar·an·{tee}", // Cambridge UK: ˌɡær.ənˈtiː
+      ask: "Tap the syllable that carries the beat, then press Check.",
+      hint: "Say it with the beat on each syllable in turn. Which one sounds like the real word? Listen for loud and high, not just long. One syllable has a smaller beat: find the biggest one.",
+      rule: "guar-an-TEE: <span class='ipa'>/ɡærənˈtiː/</span>. TEE has the full long vowel <span class='ipa'>iː</span>; an goes weak to <span class='ipa'>ə</span>. guar keeps a full <span class='ipa'>æ</span> because it has a smaller beat, but a smaller beat is not THE beat. Mark only TEE." },
+    { id: "p3q9", type: "tap", syl: true, s: "af·ter·{noon}", // Cambridge UK: ˌɑːf.təˈnuːn
+      ask: "Tap the syllable that carries the beat, then press Check.",
+      hint: "Say it with the beat on each syllable in turn. Which one sounds like the real word? Listen for loud and high, not just long. One syllable is long but only has a smaller beat.",
+      rule: "af-ter-NOON: <span class='ipa'>/ɑːftəˈnuːn/</span>. NOON has the full long vowel <span class='ipa'>uː</span> and the beat. af keeps its long <span class='ipa'>ɑː</span> because it has a smaller beat, but long is not loud: it is not THE beat. ter goes weak to <span class='ipa'>ə</span>." },
+    { id: "p3q10", type: "pick", s: "re·[view]", ipa: "/rɪ_vjuː/", fill: "ˈ", // Cambridge UK: rɪˈvjuː
+      ask: "The beat in review is on <b>view</b>. Pick the explanation that would earn the mark.",
+      opts: [
+        "view, because it is said louder and higher than re-. The ree can sound long in your accent, but long is not loud.",
+        "re, because the ree is the longest sound in the word, and the longest sound always carries the beat.",
+        "view, because in a word with two syllables the beat always falls on the last one."], key: 0,
+      hint: "Think back to afternoon in this round: af- is long too. Did that make it the beat? And think of river and women: where is their beat?",
+      rule: "re-VIEW: <span class='ipa'>/rɪˈvjuː/</span>. Long is not loud: the beat is the syllable said louder and higher, and a long vowel can sit off the beat (af in afternoon). In the dictionary, this re- is only a quick <span class='ipa'>ɪ</span>, like de- in decide. The long ree is your accent stretching it, not the beat; that is how review slipped in A3." }
+  ]
+},
 {
   id: "s1", group: "test", title: "Spot my errors A",
   blurb: "Willo and Mary walking. 8 labels, 3 are wrong.",
@@ -871,13 +1024,197 @@ var ROUNDS = [
       { n: 8, word: "theirs", says: "possessive pronoun" }
     ]
   }
+},
+{
+  id: "s4", group: "test", title: "Spot my errors D",
+  blurb: "Furs for the city. 8 labels, 3 are wrong.",
+  spot: {
+    extract: "Willo [1:carefully] packs [2:his] furs and carries [3:them] [4:into] the city. The [5:falling] snow hides the mountains. Mary [6:is] scared of the crowds. At the shop, every skin [7:is] checked by [8:Jacob], the furrier.",
+    items: [
+      { n: 1, word: "carefully", says: "adverb of time", wrong: true, fix: "adverb of manner",
+        model: "\"carefully\" is an adverb of manner, not an adverb of time, because it tells how Willo packs his furs, not when." },
+      { n: 2, word: "his", says: "possessive adjective" },
+      { n: 3, word: "them", says: "personal pronoun" },
+      { n: 4, word: "into", says: "preposition" },
+      { n: 5, word: "falling", says: "gerund (noun)", wrong: true, fix: "gerund (adjective)",
+        model: "\"falling\" is a gerund (adjective), not a gerund (noun), because it is an -ing word describing the noun \"snow\" right after it." },
+      { n: 6, word: "is", says: "auxiliary verb", wrong: true, fix: "linking verb",
+        model: "\"is\" is a linking verb, not an auxiliary verb, because the word after it, \"scared\", is a describing word (it takes \"very\": Mary is very scared), not an action." },
+      { n: 7, word: "is", says: "auxiliary verb" },
+      { n: 8, word: "Jacob", says: "proper noun" }
+    ]
+  }
+},
+{
+  id: "s5", group: "test", title: "Spot my errors E",
+  blurb: "Checking the traps. 8 labels, 3 are wrong.",
+  spot: {
+    extract: "Willo and Callum climb [1:through] the deep snow to check the traps. Callum is tired of [2:walking], [3:but] he keeps going. Near the river, Willo stops and points at some tracks. \"[4:Those] are fresh,\" he whispers. Callum pulls [5:his] scarf tighter, and [6:they] follow the tracks to a [7:hare] in the last trap. Tonight [8:Mary] will eat well.",
+    items: [
+      { n: 1, word: "through", says: "preposition" },
+      { n: 2, word: "walking", says: "abstract noun", wrong: true, fix: "gerund (noun)",
+        model: "\"walking\" is a gerund (noun), not an abstract noun, because it is an -ing word straight after the preposition \"of\", and you can swap in \"it\": Callum is tired of it." },
+      { n: 3, word: "but", says: "subordinating conjunction", wrong: true, fix: "coordinating conjunction",
+        model: "\"but\" is a coordinating conjunction, not a subordinating conjunction, because it is one of the FANBOYS (for, and, nor, but, or, yet, so), and it joins two equal sentences: \"Callum is tired of walking\" and \"he keeps going\"." },
+      { n: 4, word: "Those", says: "demonstrative pronoun" },
+      { n: 5, word: "his", says: "demonstrative adjective", wrong: true, fix: "possessive adjective",
+        model: "\"his\" is a possessive adjective, not a demonstrative adjective, because it shows who owns the scarf (it is Callum's scarf). A demonstrative points instead: this, that, these, those." },
+      { n: 6, word: "they", says: "personal pronoun" },
+      { n: 7, word: "hare", says: "common noun" },
+      { n: 8, word: "Mary", says: "proper noun" }
+    ]
+  }
+},
+{
+  id: "s6", group: "test", title: "Spot my errors F",
+  blurb: "A storm on the mountain. 8 labels, 3 are wrong.",
+  spot: {
+    extract: "A storm blows over the mountain, and the [1:howling] wind rattles the windows. Inside, Willo [2:feels] cold, even in [3:his] furs. He throws another log on the fire, and the [4:dogs] curl up beside him. The snow is [5:very] deep now, so tomorrow's hunt will be hard. [6:Willo] strokes the old dog's head [7:gently]. The night seems [8:long], but the fire keeps them warm.",
+    items: [
+      { n: 1, word: "howling", says: "present participle", wrong: true, fix: "gerund (adjective)",
+        model: "\"howling\" is a gerund (adjective), not a present participle, because a noun comes straight after it (\"howling wind\"), so it describes the wind. A present participle has a helper in front (\"is howling\") or hangs at the start of the sentence." },
+      { n: 2, word: "feels", says: "finite verb", wrong: true, fix: "linking verb",
+        model: "\"feels\" is a linking verb, not a finite verb, because you can swap in \"is\" and it still works (Willo is cold), and the word after it, \"cold\", describes Willo. It is not an action." },
+      { n: 3, word: "his", says: "possessive adjective" },
+      { n: 4, word: "dogs", says: "common noun" },
+      { n: 5, word: "very", says: "descriptive adjective", wrong: true, fix: "adverb of degree",
+        model: "\"very\" is an adverb of degree, not a descriptive adjective, because it tells how much (how deep the snow is) and it sits in front of the describing word \"deep\". It does not describe the snow itself." },
+      { n: 6, word: "Willo", says: "proper noun" },
+      { n: 7, word: "gently", says: "adverb of manner" },
+      { n: 8, word: "long", says: "descriptive adjective" }
+    ]
+  }
+},
+{
+  id: "s7", group: "test", title: "Spot my errors G",
+  blurb: "A cold start before dawn. 8 labels, 3 are wrong.",
+  spot: {
+    extract: "Before dawn, Willo stirs [1:up] the fire. He needs to [2:check] the traps early, and his [3:three] dogs wait [4:outside]. In the mountains, [5:you] never know when a storm will come. Willo pulls the sled [6:across] the frozen lake, then wraps [7:himself] in his furs. Only the wind breaks the [8:silence].",
+    items: [
+      { n: 1, word: "up", says: "preposition" },
+      { n: 2, word: "check", says: "finite verb", wrong: true, fix: "infinitive",
+        model: "\"check\" is an infinitive, not a finite verb, because it comes straight after \"to\" (to check). It has no tense: a finite verb changes with time, like \"he checks\" or \"he checked\"." },
+      { n: 3, word: "three", says: "adjective of quantity" },
+      { n: 4, word: "outside", says: "adverb of place" },
+      { n: 5, word: "you", says: "personal pronoun", wrong: true, fix: "indefinite pronoun",
+        model: "\"you\" is an indefinite pronoun, not a personal pronoun, because it does not mean a real person being spoken to. It means anyone at all, so you can swap in \"one\": one never knows when a storm will come." },
+      { n: 6, word: "across", says: "adverb of place", wrong: true, fix: "preposition",
+        model: "\"across\" is a preposition, not an adverb of place, because a noun comes straight after it (\"across the frozen lake\"). An adverb of place stands on its own, like \"outside\" in \"his dogs wait outside\"." },
+      { n: 7, word: "himself", says: "reflexive pronoun" },
+      { n: 8, word: "silence", says: "abstract noun" }
+    ]
+  }
+},
+{
+  id: "s8", group: "test", title: "Spot my errors H",
+  blurb: "Hiding from wolves in the pines. 8 labels, 3 are wrong.",
+  spot: {
+    extract: "Willo has waited in the snow for [1:hours]. Now a [2:pack] of wolves [3:is] moving through the pines below. [4:Looking] down, he holds his breath. The whole forest is [5:quiet]. [6:That] ridge hides him and his dogs [7:while] the wolves pass. Then it starts to snow [8:again].",
+    items: [
+      { n: 1, word: "hours", says: "abstract noun" },
+      { n: 2, word: "pack", says: "collective noun" },
+      { n: 3, word: "is", says: "linking verb", wrong: true, fix: "auxiliary verb",
+        model: "\"is\" is an auxiliary verb, not a linking verb, because it helps the main verb \"moving\" (is moving), and moving is an action. A linking verb joins the subject to a describing word, like \"is\" in \"the whole forest is quiet\"." },
+      { n: 4, word: "Looking", says: "gerund (adjective)", wrong: true, fix: "present participle",
+        model: "\"Looking\" is a present participle, not a gerund (adjective), because it hangs at the start of the sentence and tells what he is doing as he holds his breath. A gerund (adjective) has a noun straight after it, like \"howling wind\"." },
+      { n: 5, word: "quiet", says: "abstract noun", wrong: true, fix: "descriptive adjective",
+        model: "\"quiet\" is a descriptive adjective, not an abstract noun, because it describes the forest and you can put \"very\" in front of it (the forest is very quiet). An abstract noun names a thing you cannot touch, like \"hours\"." },
+      { n: 6, word: "That", says: "demonstrative adjective" },
+      { n: 7, word: "while", says: "subordinating conjunction" },
+      { n: 8, word: "again", says: "adverb of frequency" }
+    ]
+  }
+},
+{
+  id: "s9", group: "test", title: "Spot my errors I",
+  blurb: "Hunting as the stars come out. 8 labels, 3 are wrong.",
+  spot: {
+    extract: "[1:Hunting] after dark is dangerous, but Willo has no meat left. The air [2:feels] colder as the [3:first] stars come out. Suddenly his dogs growl at the rocks. \"[4:What] did you smell?\" he whispers. He lifts his [5:spear] [6:carefully], [7:because] something is moving in the snow. \"Stay by [8:my] side,\" he tells the dogs.",
+    items: [
+      { n: 1, word: "Hunting", says: "gerund (noun)" },
+      { n: 2, word: "feels", says: "linking verb" },
+      { n: 3, word: "first", says: "adjective of order" },
+      { n: 4, word: "What", says: "interrogative pronoun" },
+      { n: 5, word: "spear", says: "common noun" },
+      { n: 6, word: "carefully", says: "adverb of frequency", wrong: true, fix: "adverb of manner",
+        model: "\"carefully\" is an adverb of manner, not an adverb of frequency, because it tells how he lifts the spear. An adverb of frequency tells how often, like \"again\" or \"always\"." },
+      { n: 7, word: "because", says: "coordinating conjunction", wrong: true, fix: "subordinating conjunction",
+        model: "\"because\" is a subordinating conjunction, not a coordinating conjunction, because it is not one of the FANBOYS (for, and, nor, but, or, yet, so). The part it starts cannot stand alone: \"because something is moving in the snow\"." },
+      { n: 8, word: "my", says: "possessive pronoun", wrong: true, fix: "possessive adjective",
+        model: "\"my\" is a possessive adjective, not a possessive pronoun, because a noun comes straight after it (my side). A possessive pronoun stands alone with no noun, like \"mine\" in \"the fire is mine\"." }
+    ]
+  }
+},
+/* listen rounds: same spot shape, plus listen = the mp3 (published next to this page).
+   The voice reads the extract, then says the 8 labels in order. Clip: make-listen-clip.py <id>. */
+{
+  id: "s10", group: "listen", title: "Listen and spot J", listen: "s10.mp3",
+  blurb: "A snow cave in a storm. 8 labels by ear, 3 are wrong.",
+  spot: {
+    extract: "A storm [1:roars] down the mountain. Willo [2:is] tired, so he digs a cave in a [3:deep] snowdrift. The [4:biting] wind howls [5:again] outside. The entrance [6:is] sealed with a slab of ice, and his [7:three] dogs curl up [8:beside] him.",
+    items: [
+      { n: 1, word: "roars", says: "finite verb" },
+      { n: 2, word: "is", says: "auxiliary verb", wrong: true, fix: "linking verb",
+        model: "\"is\" is a linking verb, not an auxiliary verb, because the word after it, \"tired\", is a describing word (it takes \"very\": Willo is very tired), not an action." },
+      { n: 3, word: "deep", says: "descriptive adjective" },
+      { n: 4, word: "biting", says: "gerund (noun)", wrong: true, fix: "gerund (adjective)",
+        model: "\"biting\" is a gerund (adjective), not a gerund (noun), because it is an -ing word describing the noun \"wind\" right after it." },
+      { n: 5, word: "again", says: "adverb of time", wrong: true, fix: "adverb of frequency",
+        model: "\"again\" is an adverb of frequency, not an adverb of time, because it tells how often the wind howls (one more time), not when." },
+      { n: 6, word: "is", says: "auxiliary verb" },
+      { n: 7, word: "three", says: "adjective of quantity" },
+      { n: 8, word: "beside", says: "preposition" }
+    ]
+  }
+},
+{
+  id: "s11", group: "listen", title: "Listen and spot K", listen: "s11.mp3",
+  blurb: "Fishing on the frozen lake. 8 labels by ear, 3 are wrong.",
+  spot: {
+    extract: "Willo walks [1:across] the lake with his dogs. It is frozen solid, [2:so] he chips a hole to [3:catch] fish. He is good at [4:fishing], but it takes [5:patience]. The dogs press [6:their] noses to the hole and wait. By noon, four [7:shiny] fish lie on the ice. \"We will eat [8:those] tonight,\" he tells the dogs.",
+    items: [
+      { n: 1, word: "across", says: "preposition" },
+      { n: 2, word: "so", says: "subordinating conjunction", wrong: true, fix: "coordinating conjunction",
+        model: "\"so\" is a coordinating conjunction, not a subordinating conjunction, because it is one of the FANBOYS (for, and, nor, but, or, yet, so), and it joins two equal sentences: \"It is frozen solid\" and \"he chips a hole to catch fish\"." },
+      { n: 3, word: "catch", says: "infinitive" },
+      { n: 4, word: "fishing", says: "abstract noun", wrong: true, fix: "gerund (noun)",
+        model: "\"fishing\" is a gerund (noun), not an abstract noun, because it is an -ing word straight after the preposition \"at\", and you can swap in \"it\": He is good at it." },
+      { n: 5, word: "patience", says: "abstract noun" },
+      { n: 6, word: "their", says: "demonstrative adjective", wrong: true, fix: "possessive adjective",
+        model: "\"their\" is a possessive adjective, not a demonstrative adjective, because it shows who owns the noses (they are the dogs' noses). A demonstrative points instead: this, that, these, those." },
+      { n: 7, word: "shiny", says: "descriptive adjective" },
+      { n: 8, word: "those", says: "demonstrative pronoun" }
+    ]
+  }
+},
+{
+  id: "s12", group: "listen", title: "Listen and spot L", listen: "s12.mp3",
+  blurb: "Climbing a mountain pass. 8 labels by ear, 3 are wrong.",
+  spot: {
+    extract: "Willo leads his [1:team] of dogs up a narrow mountain pass. The path is [2:so] steep, and the [3:shivering] dogs stop to [4:rest]. At the top, the air [5:seems] thin and bitter. Willo wraps [6:himself] in his furs [7:because] the wind cuts like a knife. A frozen valley lies far below, but the way down looks [8:hard].",
+    items: [
+      { n: 1, word: "team", says: "collective noun" },
+      { n: 2, word: "so", says: "descriptive adjective", wrong: true, fix: "adverb of degree",
+        model: "\"so\" is an adverb of degree, not a descriptive adjective, because it tells how much (how steep the path is) and it sits in front of the describing word \"steep\". It does not describe the path itself." },
+      { n: 3, word: "shivering", says: "present participle", wrong: true, fix: "gerund (adjective)",
+        model: "\"shivering\" is a gerund (adjective), not a present participle, because it is an -ing word with a noun straight after it (\"shivering dogs\"), so it describes the dogs. A present participle has a helper in front (\"are shivering\")." },
+      { n: 4, word: "rest", says: "infinitive" },
+      { n: 5, word: "seems", says: "finite verb", wrong: true, fix: "linking verb",
+        model: "\"seems\" is a linking verb, not a finite verb, because you can swap in \"is\" and it still works (the air is thin and bitter), and the words after it describe the air. It is not an action." },
+      { n: 6, word: "himself", says: "reflexive pronoun" },
+      { n: 7, word: "because", says: "subordinating conjunction" },
+      { n: 8, word: "hard", says: "descriptive adjective" }
+    ]
+  }
 }
 ];
 
 var GROUPS = [
   ["pos", "Parts of speech"],
   ["morph", "Morphology"],
-  ["test", "Test style: spot my errors"]
+  ["phon", "Phonetics and word stress"],
+  ["test", "Test style: spot my errors"],
+  ["listen", "Test style: listen and spot"]
 ];
 
 var QMAP = {}, RMAP = {};
@@ -889,13 +1226,20 @@ ROUNDS.forEach(function (r) {
 /* ---------------- helpers ---------------- */
 function esc(t) { return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
 function under(s) { return s.replace(/\[([^\]]+)\]/g, "<u>$1</u>"); }
+/* phonetics: the transcription with its gap, filled in once the question is answered */
+function ipaLine(q, filled) {
+  var g = filled ? "<span class='gap filled'>" + esc(q.fill || q.opts[q.key]) + "</span>" : "<span class='gap'>?</span>";
+  return "<p class='ipa ipaline'>" + esc(q.ipa).replace("_", g) + "</p>";
+}
 function shuffle(n) {
   var a = []; for (var i = 0; i < n; i++) a.push(i);
   for (var j = n - 1; j > 0; j--) { var k = Math.floor(Math.random() * (j + 1)); var t = a[j]; a[j] = a[k]; a[k] = t; }
   return a;
 }
 function tokens(s) {
-  return s.split(" ").map(function (w) {
+  /* p3: a single word split with middle dots (no spaces) = one tap target per syllable */
+  var syl = s.indexOf(" ") === -1 && s.indexOf("·") !== -1;
+  return s.split(syl ? "·" : " ").map(function (w) {
     var m = w.match(/^\{([^}]+)\}(.*)$/);
     return m ? { t: m[1] + m[2], key: true } : { t: w, key: false };
   });
@@ -997,6 +1341,12 @@ function exportText() {
         L.push(w.n + ". " + w.word + ": the lecturer said \"" + w.said + "\". Correct label: " + w.right + ". My label: " + (w.pick || "none") + (w.pick === w.right ? " (right)" : " (wrong)"));
         L.push("   My why-sentence (please mark): " + (w.text ? "\"" + w.text + "\"" : "(left blank)"));
       });
+      if (r.heard && r.heard.length) {
+        L.push("Listening: what the voice said and the label I typed (spelling counts in A4):");
+        r.heard.forEach(function (x) {
+          L.push("   " + x.n + ". " + x.word + ": said \"" + x.said + "\" / I heard \"" + (x.heard || "") + "\"" + (sameLabel(x.said, x.heard) ? "" : " (different)"));
+        });
+      }
     } else {
       L.push("== " + r.roundTitle + (r.mode === "redo" ? " (redo of misses)" : "") + " · " + fmtDate(r.at) + " · " + r.minutes + " min");
       L.push("First try " + r.firstTry + " · after the hint " + r.afterHint + " · shown the answer " + r.taught + " · out of " + r.total);
@@ -1027,7 +1377,7 @@ function startRound(id, qids, mode) {
   S.roundId = id; S.mode = mode; S.startedAt = Date.now();
   if (r.spot) {
     S.view = "spot";
-    S.spot = { phase: "flag", flags: [], tries: 0, hint: "", result: null, spotted: 0, fixes: {} };
+    S.spot = { phase: r.listen ? "hear" : "flag", flags: [], tries: 0, hint: "", result: null, spotted: 0, fixes: {}, heard: {} };
   } else {
     S.view = "q";
     S.order = qids || r.qs.map(function (q) { return q.id; });
@@ -1066,7 +1416,7 @@ function viewMenu() {
     "<div class='chips'><span class='chip'>A4 · Fri 16 Oct</span><span class='chip'>" + done + " of " + ROUNDS.length + " rounds done</span></div>" +
     (COPY_MODE
       ? "<p class='note'>Pick a round. Each one starts with Dr Annandale's labels, then 8 to 10 questions. Wrong once = a hint and a second try. Finished rounds are kept in this browser. Press <b>Copy my results</b> and paste them into your Claude chat to get your why-sentences marked. The sentences are made up for this drill, set in Willo's world, and her labels win every time.</p></div>" + copyBlock()
-      : "<p class='note'>Pick a round. Each one starts with her labels, then 8 to 10 questions. Wrong once = a hint and a second try. Every finished round is saved for your tutor. The sentences are made up for this drill, set in Willo's world, and her labels win every time.</p></div>");
+      : "<p class='note'>Pick a round. Each one starts with her labels (or your IPA chart), then 8 to 10 questions. Wrong once = a hint and a second try. Every finished round is saved for your tutor. The sentences are made up for this drill, set in Willo's world, and her labels win every time.</p></div>");
   GROUPS.forEach(function (g) {
     h += "<section class='group'><h2>" + g[1] + "</h2>";
     ROUNDS.filter(function (r) { return r.group === g[0]; }).forEach(function (r) {
@@ -1095,9 +1445,14 @@ function viewIntro() {
   if (r.spot) {
     h += "<div class='q'><div class='sheet'><div><h3>How the real test works</h3>" +
       "<p>She teaches and plants wrong labels. For every error you write three things: the error, the correct label, and one sentence of why. That is 3 marks per error.</p></div>" +
-      "<div><h3>This round</h3><p>An extract with 8 labelled words. 3 labels are wrong.</p><ul>" +
-      "<li><b>Step 1:</b> tap the 3 wrong labels.</li>" +
-      "<li><b>Step 2:</b> pick the correct label and type your why-sentence for each.</li></ul></div>" +
+      (r.listen
+        ? "<div><h3>This round</h3><p>A voice reads the passage and labels 8 words. Some labels are wrong. Listen as often as you like here; whether the real A4 lets you replay is not known yet.</p><ul>" +
+          "<li><b>Step 1:</b> listen and type each label you hear. Spelling counts.</li>" +
+          "<li><b>Step 2:</b> tap the 3 wrong labels.</li>" +
+          "<li><b>Step 3:</b> pick the correct label and type your why-sentence for each.</li></ul></div>"
+        : "<div><h3>This round</h3><p>An extract with 8 labelled words. 3 labels are wrong.</p><ul>" +
+          "<li><b>Step 1:</b> tap the 3 wrong labels.</li>" +
+          "<li><b>Step 2:</b> pick the correct label and type your why-sentence for each.</li></ul></div>") +
       "<div class='tests'><h3>The why-sentence shape</h3><p>\"<i>my</i>\" is a <b>possessive adjective</b>, not a possessive pronoun, because it stands in front of the noun \"head\" and shows who owns it.</p>" +
       "<p style='margin-top:6px'>Label, not the wrong label, because + her test.</p></div></div>" +
       "<button class='primary' data-act='begin'>Start round</button></div>";
@@ -1115,10 +1470,10 @@ function viewQ() {
     "<div class='track'><i style='width:" + pct + "%'></i></div><div class='q'>";
 
   if (q.type === "pick") {
-    h += "<div class='sent'>" + under(q.s) + (q.voice ? "<p class='voice'>" + esc(q.voice) + "</p>" : "") + "</div>";
-    h += "<p class='ask'>" + (q.ask || "What is the underlined word?") + "</p><div class='opts'>";
+    h += "<div class='sent'>" + under(q.s) + (q.ipa ? ipaLine(q, !!a.result) : "") + (q.voice ? "<p class='voice'>" + esc(q.voice) + "</p>" : "") + "</div>";
+    h += "<p class='ask'>" + (q.ask || (q.sym ? "Which symbol goes in the gap?" : "What is the underlined word?")) + "</p><div class='opts" + (q.sym ? " sym" : "") + "'>";
     a.order.forEach(function (i) {
-      var cls = "opt", tried = a.tries.indexOf(i) !== -1;
+      var cls = q.sym ? "opt sym ipa" : "opt", tried = a.tries.indexOf(i) !== -1;
       if (a.result && i === q.key) cls += " right";
       else if (tried) cls += " tried";
       var dis = a.result || tried ? " disabled" : "";
@@ -1127,9 +1482,10 @@ function viewQ() {
     h += "</div>";
   } else {
     var tk = tokens(q.s), finalSel = a.result ? a.tries[a.tries.length - 1] : a.sel;
-    h += "<p class='ask'>" + q.ask + "</p><div class='words'>";
+    h += "<p class='ask'>" + q.ask + "</p><div class='words" + (q.syl ? " syl" : "") + "'>";
     tk.forEach(function (t, i) {
       var cls = "w", on = finalSel.indexOf(i) !== -1;
+      if (q.syl && i) h += "<span class='dot'>·</span>";
       if (a.result) {
         if (t.key && on) cls += " hit";
         else if (t.key) cls += " miss";
@@ -1167,7 +1523,7 @@ function viewDone() {
     h += "<h3>The rules to take with you</h3><div class='review'>";
     missed.forEach(function (id) {
       var q = QMAP[id];
-      var s = q.type === "pick" ? under(q.s) : esc(q.s.replace(/[{}]/g, ""));
+      var s = q.type === "pick" ? under(q.s) + (q.ipa ? ipaLine(q, true) : "") : esc(q.s.replace(/[{}]/g, ""));
       var ans = q.type === "pick" ? "<p><b>Answer:</b> " + esc(q.opts[q.key]) + "</p>" : "";
       h += "<div class='it'><p class='s'>" + s + "</p>" + ans + "<p>" + q.rule + "</p></div>";
     });
@@ -1194,19 +1550,36 @@ function labelSelect(n, val, dis) {
   });
   return h + "</select>";
 }
+/* listen rounds: what she typed for each word, and a forgiving same-label check
+   (brackets and commas are not heard, so "gerund adjective" = "gerund (adjective)") */
+function heardOf(st, n) { var x = (st && st.heard || {})[n]; return x ? String(x).trim() : ""; }
+function normLabel(s) { return String(s || "").toLowerCase().replace(/[(),.;:]/g, " ").replace(/\s+/g, " ").trim(); }
+function sameLabel(a, b) { return normLabel(a) === normLabel(b); }
 
 function viewSpot() {
   var r = RMAP[S.roundId], sp = r.spot, st = S.spot;
   var errs = sp.items.filter(function (it) { return it.wrong; });
-  var h = topBar(r.title, st.phase === "flag" ? "Step 1 of 2" : st.phase === "fix" ? "Step 2 of 2" : "Marked") + "<div class='q'>";
+  var steps = r.listen ? { hear: "Step 1 of 3", flag: "Step 2 of 3", fix: "Step 3 of 3" } : { flag: "Step 1 of 2", fix: "Step 2 of 2" };
+  var h = topBar(r.title, steps[st.phase] || "Marked") + "<div class='q'>";
+  if (r.listen) h += "<audio class='listen' controls preload='none' src='" + esc(r.listen) + "'></audio>";
   h += "<div class='extract'>" + renderExtract(sp) + "</div>";
 
-  if (st.phase === "flag") {
-    h += "<p class='ask'>The lecturer's labels. Tap the 3 you think are wrong.</p><div class='lab'>";
+  if (st.phase === "hear") {
+    h += "<p class='ask'>Press play. Type the label you hear for each numbered word.</p><div class='lab'>";
+    sp.items.forEach(function (it) {
+      h += "<div class='hrow'><span class='num'>" + it.n + "</span><label class='wd' for='heard-" + it.n + "'>" + esc(it.word) + "</label>" +
+        "<input type=\"text\" id=\"heard-" + it.n + "\" data-heard=\"" + it.n + "\" value=\"" + esc((st.heard || {})[it.n] || "") + "\" placeholder=\"label you heard\"" +
+        " autocomplete=\"off\" autocapitalize=\"none\" autocorrect=\"off\" spellcheck=\"false\"></div>";
+    });
+    h += "</div><p class='note'>Missed one? Play it again, or leave the box empty.</p>" +
+      "<button class='primary' data-act='heardnext'>Next: find the errors</button>";
+  } else if (st.phase === "flag") {
+    h += "<p class='ask'>" + (r.listen ? "The labels you heard. Tap the 3 you think are wrong." : "The lecturer's labels. Tap the 3 you think are wrong.") + "</p><div class='lab'>";
     sp.items.forEach(function (it) {
       var on = st.flags.indexOf(it.n) !== -1;
+      var shown = r.listen ? (heardOf(st, it.n) || "(not caught)") : it.says;
       h += "<button class='lrow" + (on ? " flag" : "") + "' data-act='flag' data-n='" + it.n + "'><span class='num'>" + it.n + "</span>" +
-        "<span><span class='wd'>" + esc(it.word) + "</span> = " + esc(it.says) + (on ? "<small>flagged as wrong</small>" : "") + "</span></button>";
+        "<span><span class='wd'>" + esc(it.word) + "</span> = " + esc(shown) + (on ? "<small>flagged as wrong</small>" : "") + "</span></button>";
     });
     h += "</div>";
     if (st.hint) h += "<div class='hint'><b>Not quite yet.</b> " + st.hint + "</div>";
@@ -1241,6 +1614,15 @@ function viewSpot() {
       h += "<button class='primary' data-act='checkfixes'" + (ready ? "" : " disabled") + ">Check my corrections</button>";
       if (!ready) h += "<p class='note'>Pick a label for all three to check. The why-sentences go to your tutor to mark.</p>";
     } else {
+      if (r.listen) {
+        h += "<h3>Said and heard</h3><div class='saidheard'>";
+        sp.items.forEach(function (it) {
+          var hd = heardOf(st, it.n), same = sameLabel(it.says, hd);
+          h += "<p" + (same ? "" : " class='diff'") + "><b>" + it.n + ". " + esc(it.word) + "</b>: said: " + esc(it.says) + " / you heard: " + (hd ? esc(hd) : "(nothing typed)") +
+            (same ? "" : "<small>Not quite the same. Check the spelling, or listen for this one again.</small>") + "</p>";
+        });
+        h += "</div>";
+      }
       h += "<p class='save'>" + esc(S.saveMsg) + "</p><p class='note'>" + (COPY_MODE
         ? "Copy your results and paste them into your Claude chat to get your three why-sentences marked (1 mark each)."
         : "Your three why-sentences are saved for your tutor to mark (1 mark each).") + "</p>" +
@@ -1259,7 +1641,13 @@ function render() {
   else if (S.view === "q") h = viewQ();
   else if (S.view === "done") h = viewDone();
   else h = viewSpot();
+  /* listen rounds: carry the same player over, so a re-render never stops the voice */
+  var au = app.querySelector("audio.listen");
   app.innerHTML = h;
+  if (au) {
+    var nu = app.querySelector("audio.listen");
+    if (nu && nu.getAttribute("src") === au.getAttribute("src")) nu.parentNode.replaceChild(au, nu);
+  }
 }
 function goTop() { try { window.scrollTo(0, 0); } catch (e) {} }
 
@@ -1305,7 +1693,8 @@ app.addEventListener("click", function (ev) {
   if (act === "tap") {
     var q2 = curQ(), a2 = ansFor(q2), k = +b.getAttribute("data-i"), p = a2.sel.indexOf(k);
     if (a2.result) return;
-    if (p === -1) a2.sel.push(k); else a2.sel.splice(p, 1);
+    if (q2.syl) a2.sel = p === -1 ? [k] : []; /* p3: only ONE beat, so a new tap replaces the old one */
+    else if (p === -1) a2.sel.push(k); else a2.sel.splice(p, 1);
     render(); return;
   }
   if (act === "checktap") {
@@ -1317,7 +1706,7 @@ app.addEventListener("click", function (ev) {
     if (hits === keys.length && extra === 0) a3.result = a3.tries.length === 1 ? "first" : "hint";
     else if (a3.tries.length >= 2) a3.result = "taught";
     else {
-      a3.hintNow = "You found " + hits + " of " + keys.length + (extra ? ", and " + plural(extra, "tap is", "taps are") + " not a preposition" : "") + ". ";
+      a3.hintNow = q3.syl ? "That syllable is not the beat. " : "You found " + hits + " of " + keys.length + (extra ? ", and " + plural(extra, "tap is", "taps are") + " not a preposition" : "") + ". ";
     }
     render(); return;
   }
@@ -1332,6 +1721,12 @@ app.addEventListener("click", function (ev) {
     startRound(rid, missed, "redo"); goTop(); return;
   }
 
+  if (act === "heardnext") {
+    var sh = S.spot; sh.heard = sh.heard || {};
+    Array.prototype.forEach.call(app.querySelectorAll("input[data-heard]"), function (el) { sh.heard[el.getAttribute("data-heard")] = el.value; });
+    sh.phase = "flag";
+    render(); goTop(); return;
+  }
   if (act === "flag") {
     var st = S.spot, n = +b.getAttribute("data-n"), at = st.flags.indexOf(n);
     if (at === -1) st.flags.push(n); else st.flags.splice(at, 1);
@@ -1358,7 +1753,7 @@ app.addEventListener("click", function (ev) {
     var errs = r.spot.items.filter(function (it) { return it.wrong; });
     var corrected = errs.filter(function (it) { return st3.fixes[it.n] && st3.fixes[it.n].pick === it.fix; }).length;
     st3.phase = "done";
-    saveRun({
+    var rec = {
       at: new Date().toISOString(), round: S.roundId, roundTitle: r.title, mode: "spot",
       spotted: st3.spotted, spotResult: st3.result, falseFlags: st3.falseFlags, flagsFirstTry: st3.tries,
       corrected: corrected, total: 9,
@@ -1367,7 +1762,9 @@ app.addEventListener("click", function (ev) {
         var f = st3.fixes[it.n] || {};
         return { n: it.n, word: it.word, said: it.says, right: it.fix, pick: f.pick || "", text: f.text || "" };
       })
-    });
+    };
+    if (r.listen) rec.heard = r.spot.items.map(function (it) { return { n: it.n, word: it.word, said: it.says, heard: heardOf(st3, it.n) }; });
+    saveRun(rec);
     render(); goTop(); return;
   }
 });
@@ -1389,6 +1786,10 @@ app.addEventListener("input", function (ev) {
     var n = el.getAttribute("data-n");
     S.spot.fixes[n] = S.spot.fixes[n] || { pick: "", text: "" };
     S.spot.fixes[n].text = el.value;
+  }
+  if (el.tagName === "INPUT" && el.hasAttribute("data-heard") && S.spot) {
+    S.spot.heard = S.spot.heard || {};
+    S.spot.heard[el.getAttribute("data-heard")] = el.value;
   }
 });
 
